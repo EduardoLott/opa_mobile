@@ -1,16 +1,23 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:opamobile/register_page.dart';
 import 'colors.dart';
 
-class LoginPage extends StatelessWidget {
-  const LoginPage({Key? key});
+class RegisterPage extends StatelessWidget {
+  const RegisterPage({Key? key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
-      appBar: null,
+      appBar: AppBar(
+        centerTitle: true,
+        title: SizedBox(
+          width: 85,
+          child: Image.asset('assets/OPA_logo.png'),
+        ),
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+      ),
       body: Container(
         width: MediaQuery.of(context).size.width,
         padding: const EdgeInsets.all(27),
@@ -25,11 +32,45 @@ class LoginPage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SizedBox(
-              width: 180,
-              child: Image.asset('assets/OPA_logo.png'),
+            const CupertinoTextField(
+              cursorColor: yellowOpa,
+              padding: EdgeInsets.all(15),
+              placeholder: "Digite o seu nome completo",
+              placeholderStyle: TextStyle(color: Colors.grey, fontSize: 14),
+              style: TextStyle(color: Colors.white, fontSize: 14),
+              decoration: BoxDecoration(
+                  color: Colors.black12,
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(7),
+                  )),
             ),
-            const SizedBox(height: 60),
+            const SizedBox(height: 5),
+            const CupertinoTextField(
+              cursorColor: yellowOpa,
+              padding: EdgeInsets.all(15),
+              placeholder: "Digite o seu e-mail",
+              placeholderStyle: TextStyle(color: Colors.grey, fontSize: 14),
+              style: TextStyle(color: Colors.white, fontSize: 14),
+              decoration: BoxDecoration(
+                  color: Colors.black12,
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(7),
+                  )),
+            ),
+            const SizedBox(height: 5),
+            const CupertinoTextField(
+              cursorColor: yellowOpa,
+              padding: EdgeInsets.all(15),
+              placeholder: "Digite o seu e-mail",
+              placeholderStyle: TextStyle(color: Colors.grey, fontSize: 14),
+              style: TextStyle(color: Colors.white, fontSize: 14),
+              decoration: BoxDecoration(
+                  color: Colors.black12,
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(7),
+                  )),
+            ),
+            const SizedBox(height: 5),
             const CupertinoTextField(
               cursorColor: yellowOpa,
               padding: EdgeInsets.all(15),
@@ -63,7 +104,7 @@ class LoginPage extends StatelessWidget {
                 padding: const EdgeInsets.all(17),
                 color: yellowOpa,
                 child: const Text(
-                  "Login",
+                  "Cadastrar",
                   style: TextStyle(
                       color: brownOpa,
                       fontSize: 14,
@@ -73,27 +114,6 @@ class LoginPage extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 7),
-            Container(
-              width: double.infinity,
-              decoration: BoxDecoration(
-                  border: Border.all(color: brownOpa, width: 2),
-                  borderRadius: BorderRadius.circular(7)),
-              child: CupertinoButton(
-                child: const Text(
-                  "Crie sua conta",
-                  style: TextStyle(
-                      color: brownOpa,
-                      fontSize: 14,
-                      fontWeight: FontWeight.w600),
-                ),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => RegisterPage()),
-                  );
-                },
-              ),
-            ),
           ],
         ),
       ),
