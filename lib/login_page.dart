@@ -163,15 +163,15 @@ class LoginPage extends StatelessWidget {
               ],
             ),
           ),
-          Positioned(
-            left: 0,
-            right: 0,
-            bottom: 0,
-            child: Container(
-              height: 70, // Altura do quadrado
-              color: const Color(0xFFF8E49E), // Cor do quadrado
-            ),
-          ),
+          //Positioned(
+          //  left: 0,
+          //  right: 0,
+          //  bottom: 0,
+          //  child: Container(
+          //    height: 70, // Altura do quadrado
+          //    color: const Color(0xFFF8E49E), // Cor do quadrado
+          //  ),
+          //),
         ],
       ),
     );

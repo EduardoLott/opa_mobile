@@ -26,103 +26,110 @@ class RegisterPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        extendBodyBehindAppBar: true,
-        appBar: AppBar(
-          centerTitle: true,
-          title: SizedBox(
-            width: 85,
-            child: Image.asset('assets/OPA_logo.png'),
-          ),
-          elevation: 0,
-          backgroundColor: yellowOpa,
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        centerTitle: true,
+        title: SizedBox(
+          width: 85,
+          child: Image.asset('assets/OPA_logo.png'),
         ),
-        body: Stack(
-          children: [
-            Container(
-              width: MediaQuery.of(context).size.width,
-              padding: const EdgeInsets.all(27),
-              decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    Colors.white,
-                    Colors.white70,
-                  ],
-                ),
+        elevation: 0,
+        backgroundColor: yellowOpa,
+      ),
+      body: SingleChildScrollView(
+        padding: EdgeInsets.only(
+            top: MediaQuery.of(context).padding.top +
+                kToolbarHeight), // Adiciona padding superior
+        child: Container(
+          width: MediaQuery.of(context).size.width,
+          padding: const EdgeInsets.all(27),
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                Colors.white,
+                Colors.white70,
+              ],
+            ),
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              _buildTextFieldWithLabel(
+                context,
+                labelText: 'Nome',
+                placeholder: 'Digite o seu nome completo',
               ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+              const SizedBox(height: 5),
+              _buildTextFieldWithLabel(
+                context,
+                labelText: 'Email',
+                placeholder: 'Digite o seu email',
+              ),
+              const SizedBox(height: 5),
+              _buildTextFieldWithLabel(
+                context,
+                labelText: 'Usuário',
+                placeholder: 'Digite o seu usuário',
+              ),
+              const SizedBox(height: 5),
+              _buildTextFieldWithLabel(
+                context,
+                labelText: 'CPF',
+                placeholder: 'Digite o seu CPF',
+              ),
+              const SizedBox(height: 5),
+              Row(
                 children: [
-                  _buildTextFieldWithLabel(
-                    context,
-                    labelText: 'Nome',
-                    placeholder: 'Digite o seu nome completo',
-                  ),
-                  const SizedBox(height: 5),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: _buildDateInputWithLabel(
-                          context,
-                          labelText: 'Data',
-                        ),
-                      ),
-                      const SizedBox(width: 10),
-                      Expanded(
-                        child: _buildGenderDropdownWithLabel(
-                          context,
-                          labelText: 'Gênero',
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 5),
-                  _buildTextFieldWithLabel(
-                    context,
-                    labelText: 'Senha',
-                    placeholder: 'Digite sua senha',
-                    obscureText: true,
-                  ),
-                  const SizedBox(height: 5),
-                  _buildTextFieldWithLabel(
-                    context,
-                    labelText: 'Confirmar Senha',
-                    placeholder: 'Confirme sua senha',
-                    obscureText: true,
-                  ),
-                  const SizedBox(height: 30),
-                  SizedBox(
-                    width: double.infinity,
-                    child: CupertinoButton(
-                      padding: const EdgeInsets.all(17),
-                      color: Colors.yellow,
-                      child: Text(
-                        'CADASTRAR',
-                        style: GoogleFonts.poppins(
-                          textStyle: const TextStyle(
-                              color: Colors.brown,
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              letterSpacing: 3.0),
-                        ),
-                      ),
-                      onPressed: () {},
+                  Expanded(
+                    child: _buildDateInputWithLabel(
+                      context,
+                      labelText: 'Data de nascimento',
                     ),
                   ),
-                  const SizedBox(height: 7),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: _buildGenderDropdownWithLabel(
+                      context,
+                      labelText: 'Gênero',
+                    ),
+                  ),
                 ],
               ),
-            ),
-            Positioned(
-              left: 0,
-              right: 0,
-              bottom: 0,
-              child: Container(
-                height: 70, // Altura do quadrado
-                color: const Color(0xFFF8E49E), // Cor do quadrado
+              const SizedBox(height: 5),
+              _buildTextFieldWithLabel(
+                context,
+                labelText: 'Senha',
+                placeholder: 'Digite sua senha',
+                obscureText: true,
               ),
-            ),
-          ],
-        ));
+              const SizedBox(height: 5),
+              _buildTextFieldWithLabel(
+                context,
+                labelText: 'Confirmar Senha',
+                placeholder: 'Confirme sua senha',
+                obscureText: true,
+              ),
+              const SizedBox(height: 30),
+              SizedBox(
+                width: double.infinity,
+                child: CupertinoButton(
+                  padding: const EdgeInsets.all(17),
+                  color: yellowOpa,
+                  child: Text(
+                    'CADASTRAR',
+                    style: TextStyle(
+                      color: Colors.black, // Define a cor do texto como preto
+                    ),
+                  ),
+                  onPressed: () {},
+                ),
+              ),
+              const SizedBox(height: 7),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
   Widget _buildTextFieldWithLabel(BuildContext context,
