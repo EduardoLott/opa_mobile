@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'colors.dart';
 
 class RegisterPage extends StatelessWidget {
@@ -32,83 +33,56 @@ class RegisterPage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const CupertinoTextField(
-              cursorColor: yellowOpa,
-              padding: EdgeInsets.all(15),
-              placeholder: "Digite o seu nome completo",
-              placeholderStyle: TextStyle(color: Colors.grey, fontSize: 14),
-              style: TextStyle(color: Colors.white, fontSize: 14),
-              decoration: BoxDecoration(
-                  color: Colors.black12,
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(7),
-                  )),
+            _buildTextFieldWithLabel(
+              context,
+              labelText: 'Nome',
+              placeholder: 'Digite o seu nome completo',
             ),
             const SizedBox(height: 5),
-            const CupertinoTextField(
-              cursorColor: yellowOpa,
-              padding: EdgeInsets.all(15),
-              placeholder: "Digite o seu e-mail",
-              placeholderStyle: TextStyle(color: Colors.grey, fontSize: 14),
-              style: TextStyle(color: Colors.white, fontSize: 14),
-              decoration: BoxDecoration(
-                  color: Colors.black12,
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(7),
-                  )),
+            Row(
+              children: [
+                Expanded(
+                  child: _buildDateInputWithLabel(
+                    context,
+                    labelText: 'Data',
+                  ),
+                ),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: _buildGenderDropdownWithLabel(
+                    context,
+                    labelText: 'Gênero',
+                  ),
+                ),
+              ],
             ),
             const SizedBox(height: 5),
-            const CupertinoTextField(
-              cursorColor: yellowOpa,
-              padding: EdgeInsets.all(15),
-              placeholder: "Digite o seu e-mail",
-              placeholderStyle: TextStyle(color: Colors.grey, fontSize: 14),
-              style: TextStyle(color: Colors.white, fontSize: 14),
-              decoration: BoxDecoration(
-                  color: Colors.black12,
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(7),
-                  )),
-            ),
-            const SizedBox(height: 5),
-            const CupertinoTextField(
-              cursorColor: yellowOpa,
-              padding: EdgeInsets.all(15),
-              placeholder: "Digite o seu e-mail",
-              placeholderStyle: TextStyle(color: Colors.grey, fontSize: 14),
-              style: TextStyle(color: Colors.white, fontSize: 14),
-              decoration: BoxDecoration(
-                  color: Colors.black12,
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(7),
-                  )),
-            ),
-            const SizedBox(height: 5),
-            const CupertinoTextField(
-              padding: EdgeInsets.all(15),
-              cursorColor: yellowOpa,
-              placeholder: "Digite sua senha",
+            _buildTextFieldWithLabel(
+              context,
+              labelText: 'Senha',
+              placeholder: 'Digite sua senha',
               obscureText: true,
-              placeholderStyle: TextStyle(color: Colors.grey, fontSize: 14),
-              style: TextStyle(color: Colors.white, fontSize: 14),
-              decoration: BoxDecoration(
-                  color: Colors.black12,
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(7),
-                  )),
+            ),
+            const SizedBox(height: 5),
+            _buildTextFieldWithLabel(
+              context,
+              labelText: 'Confirmar Senha',
+              placeholder: 'Confirme sua senha',
+              obscureText: true,
             ),
             const SizedBox(height: 30),
             SizedBox(
               width: double.infinity,
               child: CupertinoButton(
                 padding: const EdgeInsets.all(17),
-                color: yellowOpa,
+                color: Colors.yellow,
                 child: const Text(
-                  "Cadastrar",
+                  'Cadastrar',
                   style: TextStyle(
-                      color: brownOpa,
-                      fontSize: 14,
-                      fontWeight: FontWeight.w600),
+                    color: Colors.brown,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
                 onPressed: () {},
               ),
@@ -117,6 +91,141 @@ class RegisterPage extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildTextFieldWithLabel(BuildContext context,
+      {required String labelText,
+      required String placeholder,
+      bool obscureText = false}) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          labelText,
+          style: const TextStyle(
+            color: Color(0xFF525252),
+            fontSize: 14,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        CupertinoTextField(
+          padding: const EdgeInsets.all(15),
+          cursorColor: Colors.yellow,
+          placeholder: placeholder,
+          obscureText: obscureText,
+          placeholderStyle:
+              const TextStyle(color: Color(0xFF818181), fontSize: 16),
+          style: GoogleFonts.poppins(
+            textStyle: const TextStyle(
+                color: Color(0xFF818181),
+                fontSize: 16,
+                fontWeight: FontWeight.w300),
+          ),
+          decoration: BoxDecoration(
+            border: Border.all(color: const Color(0xFF818181), width: 2.0),
+            color: const Color(0xFFF8F8F8),
+            borderRadius: const BorderRadius.all(
+              Radius.circular(6),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildDateInputWithLabel(BuildContext context,
+      {required String labelText}) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          labelText,
+          style: const TextStyle(
+            color: Color(0xFF525252),
+            fontSize: 14,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        GestureDetector(
+          onTap: () {
+            // Implementar a lógica do DatePicker
+          },
+          child: Container(
+            padding: const EdgeInsets.all(15),
+            decoration: BoxDecoration(
+              border: Border.all(color: const Color(0xFF818181), width: 2.0),
+              color: const Color(0xFFF8F8F8),
+              borderRadius: const BorderRadius.all(
+                Radius.circular(6),
+              ),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Selecionar data',
+                  style: const TextStyle(
+                    color: Color(0xFF818181),
+                    fontSize: 14,
+                    fontWeight: FontWeight.w300,
+                  ),
+                ),
+                Icon(
+                  Icons.calendar_today,
+                  color: Color(0xFF818181),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildGenderDropdownWithLabel(BuildContext context,
+      {required String labelText}) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          labelText,
+          style: const TextStyle(
+            color: Color(0xFF525252),
+            fontSize: 14,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        DropdownButtonFormField<String>(
+          decoration: InputDecoration(
+            contentPadding:
+                const EdgeInsets.symmetric(horizontal: 15, vertical: 17),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(6),
+              borderSide:
+                  BorderSide(color: const Color(0xFF818181), width: 2.0),
+            ),
+            fillColor: const Color(0xFFF8F8F8),
+            filled: true,
+          ),
+          items: ['Masculino', 'Feminino', 'Outro']
+              .map((gender) => DropdownMenuItem<String>(
+                    value: gender,
+                    child: Text(
+                      gender,
+                      style: const TextStyle(
+                        color: Color(0xFF818181),
+                        fontSize: 16,
+                        fontWeight: FontWeight.w300,
+                      ),
+                    ),
+                  ))
+              .toList(),
+          onChanged: (String? value) {
+            // Implementar a lógica de seleção do gênero
+          },
+        ),
+      ],
     );
   }
 }
