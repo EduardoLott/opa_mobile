@@ -1,11 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:opamobile/register_page.dart';
-import 'colors.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class LoginPage extends StatelessWidget {
-  const LoginPage({Key? key});
+  const LoginPage({super.key, Key});
 
   @override
   Widget build(BuildContext context) {
@@ -109,8 +108,8 @@ class LoginPage extends StatelessWidget {
                             fontWeight: FontWeight.w300),
                       ),
                       decoration: BoxDecoration(
-                        border:
-                            Border.all(color: Color(0xFFD0D0D0), width: 2.0),
+                        border: Border.all(
+                            color: const Color(0xFFD0D0D0), width: 2.0),
                         color: const Color(0xFFF8F8F8),
                         borderRadius: const BorderRadius.all(
                           Radius.circular(6),
@@ -170,7 +169,7 @@ class LoginPage extends StatelessWidget {
             bottom: 0,
             child: Container(
               height: 70, // Altura do quadrado
-              color: Color(0xFFF8E49E), // Cor do quadrado
+              color: const Color(0xFFF8E49E), // Cor do quadrado
             ),
           ),
         ],
