@@ -169,7 +169,7 @@ class LoginPage extends StatelessWidget {
             right: 0,
             bottom: 0,
             child: Container(
-              height: 100, // Altura do quadrado
+              height: 70, // Altura do quadrado
               color: Color(0xFFF8E49E), // Cor do quadrado
             ),
           ),
