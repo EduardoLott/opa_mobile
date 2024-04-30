@@ -14,6 +14,26 @@ class RegisterPage extends StatefulWidget {
 class _RegisterPageState extends State<RegisterPage> {
   final _formKey = GlobalKey<FormState>();
 
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController passwordConfirmController =
+      TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController userController = TextEditingController();
+  final TextEditingController cpfController = TextEditingController();
+  final TextEditingController birthDateController = TextEditingController();
+  final TextEditingController genderController = TextEditingController();
+  final TextEditingController phoneController = TextEditingController();
+  final TextEditingController cepController = TextEditingController();
+  final TextEditingController cityController = TextEditingController();
+  final TextEditingController neighborhoodController = TextEditingController();
+  final TextEditingController stateController = TextEditingController();
+  final TextEditingController streetController = TextEditingController();
+  final TextEditingController streetNumberController = TextEditingController();
+  final TextEditingController complementController = TextEditingController();
+
+  var label;
+
   DateTime selectedDate = DateTime.now();
 
   Future<void> _selectDate(BuildContext context) async {
@@ -79,6 +99,18 @@ class _RegisterPageState extends State<RegisterPage> {
                   context,
                   labelText: 'Usuário',
                   placeholder: 'Digite o seu usuário',
+                ),
+                const SizedBox(height: 5),
+                _buildTextFormFieldWithLabel(
+                  context,
+                  labelText: 'Senha',
+                  placeholder: 'Digite sua senha',
+                ),
+                const SizedBox(height: 5),
+                _buildTextFormFieldWithLabel(
+                  context,
+                  labelText: 'Confirme a senha',
+                  placeholder: 'Confirme a senha',
                 ),
                 const SizedBox(height: 5),
                 _buildTextFormFieldWithLabel(
@@ -158,6 +190,20 @@ class _RegisterPageState extends State<RegisterPage> {
                     ),
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {}
+                      print('Nome: ${nameController.text}');
+                      print('Email: ${emailController.text}');
+                      print('Senha: ${passwordController.text}');
+                      print('CPF: ${cpfController.text}');
+                      print('Data de Nascimento: ${birthDateController.text}');
+                      print('Gênero: ${genderController.text}');
+                      print('CEP: ${cepController.text}');
+                      print('Telefone: ${phoneController.text}');
+                      print('Cidade: ${cityController.text}');
+                      print('Bairro: ${neighborhoodController.text}');
+                      print('Estado: ${stateController.text}');
+                      print('Rua: ${streetController.text}');
+                      print('Número: ${streetNumberController.text}');
+                      print('Complemento: ${complementController.text}');
                     },
                   ),
                 ),
@@ -174,6 +220,59 @@ class _RegisterPageState extends State<RegisterPage> {
       {required String labelText,
       required String placeholder,
       bool obscureText = false}) {
+    switch (labelText) {
+      case 'Nome':
+        label = nameController;
+        break;
+      case 'Email':
+        label = emailController;
+        break;
+      case 'Senha':
+        label = passwordController;
+        break;
+      case 'CPF':
+        label = cpfController;
+        break;
+      case 'Data de Nascimento':
+        label = birthDateController;
+        break;
+      case 'Gênero':
+        label = genderController;
+        break;
+      case 'CEP':
+        label = cepController;
+        break;
+      case 'Cidade':
+        label = cityController;
+        break;
+      case 'Bairro':
+        label = neighborhoodController;
+        break;
+      case 'Estado':
+        label = stateController;
+        break;
+      case 'Rua':
+        label = streetController;
+        break;
+      case 'Número':
+        label = streetNumberController;
+        break;
+      case 'Complemento':
+        label = complementController;
+        break;
+      case 'Usuário':
+        label = userController;
+        break;
+      case 'Telefone':
+        label = phoneController;
+        break;
+      case 'Senha':
+        label = passwordController;
+        break;
+      case 'Confirme a senha':
+        label = passwordConfirmController;
+        break;
+    }
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -186,6 +285,8 @@ class _RegisterPageState extends State<RegisterPage> {
               ),
             )),
         TextFormField(
+          obscureText: labelText == 'Senha' || labelText == 'Confirme a senha',
+          controller: label,
           validator: (value) {
             if (value == null || value.isEmpty) {
               return 'Por favor, digite seu $labelText';
