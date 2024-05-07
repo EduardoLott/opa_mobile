@@ -1,3 +1,5 @@
+import 'package:flutter/rendering.dart';
+
 class UserData {
   String username;
   String password;
@@ -51,5 +53,10 @@ class UserData {
       'cep': cep,
       'birthDate': birthDate,
     };
+  }
+
+  @override
+  String toString() {
+    return 'User{username: $username, password: $password, email: $email, name: $name, gender: $gender, cpf: $cpf, phoneNumber: $phoneNumber, street: $street, neighborhood: $neighborhood,streetNumber: $streetNumber, complement: $complement, city: $city, state: $state, cep: $cep, birthDate: $birthDate';
   }
 }
