@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'colors.dart';
+import 'package:opamobile/colors.dart';
 
 // ignore: must_be_immutable
 class RegisterPage extends StatefulWidget {
@@ -61,7 +61,7 @@ class _RegisterPageState extends State<RegisterPage> {
           child: Image.asset('assets/OPA_logo.png'),
         ),
         elevation: 0,
-        backgroundColor: Colors.yellow, // Alteração para a cor amarela
+        backgroundColor: OpaColors.yellowOpa, // Alteração para a cor amarela
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.only(
@@ -75,8 +75,8 @@ class _RegisterPageState extends State<RegisterPage> {
             decoration: const BoxDecoration(
               gradient: LinearGradient(
                 colors: [
-                  Colors.white,
-                  Colors.white70,
+                  OpaColors.white,
+                  OpaColors.white70,
                 ],
               ),
             ),
@@ -181,12 +181,16 @@ class _RegisterPageState extends State<RegisterPage> {
                   width: double.infinity,
                   child: CupertinoButton(
                     padding: const EdgeInsets.all(17),
-                    color: Colors.yellow,
-                    child: const Text(
-                      'CADASTRAR',
-                      style: TextStyle(
-                        color: Colors.black,
-                      ),
+                    color: OpaColors.yellowOpa,
+                    child: Text(
+                      "CADASTRAR",
+                      style: GoogleFonts.poppins(
+                        textStyle: const TextStyle(
+                          color: OpaColors.brownOpa,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      )
                     ),
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {}

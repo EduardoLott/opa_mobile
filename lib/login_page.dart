@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:opamobile/register_page.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:opamobile/colors.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key, Key});
@@ -11,7 +12,7 @@ class LoginPage extends StatelessWidget {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-        backgroundColor: const Color(0xFFFFCF24),
+        backgroundColor: OpaColors.yellowOpa,
         actions: [],
       ),
       body: Stack(
@@ -22,8 +23,8 @@ class LoginPage extends StatelessWidget {
             decoration: const BoxDecoration(
               gradient: LinearGradient(
                 colors: [
-                  Colors.white,
-                  Colors.white70,
+                  OpaColors.white,
+                  OpaColors.white70,
                 ],
               ),
             ),
@@ -48,8 +49,7 @@ class LoginPage extends StatelessWidget {
                         )),
                     const SizedBox(height: 5),
                     CupertinoTextField(
-                      cursorColor: Colors
-                          .yellow, //yellowOpa não está definido no seu código
+                      cursorColor: OpaColors.yellowOpa, //yellowOpa não está definido no seu código
                       padding: const EdgeInsets.all(15),
                       placeholder: "Insira seu email",
                       placeholderStyle: GoogleFonts.poppins(
@@ -82,7 +82,7 @@ class LoginPage extends StatelessWidget {
                     Text(
                       "Senha:",
                       style: GoogleFonts.poppins(
-                          textStyle: const TextStyle(
+                      textStyle: const TextStyle(
                         color: Color(0xFF525252),
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
@@ -91,8 +91,7 @@ class LoginPage extends StatelessWidget {
                     const SizedBox(height: 5),
                     CupertinoTextField(
                       padding: const EdgeInsets.all(15),
-                      cursorColor: Colors
-                          .yellow, //yellowOpa não está definido no seu código
+                      cursorColor: OpaColors.yellowOpa,
                       placeholder: "Insira sua senha",
                       obscureText: true,
                       placeholderStyle: GoogleFonts.poppins(
@@ -123,16 +122,18 @@ class LoginPage extends StatelessWidget {
                   width: double.infinity,
                   child: CupertinoButton(
                     padding: const EdgeInsets.all(17),
-                    color: Colors
-                        .yellow, //yellowOpa não está definido no seu código
-                    child: Text("LOGIN",
-                        style: GoogleFonts.poppins(
-                          textStyle: const TextStyle(
-                              color: Colors.brown,
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              letterSpacing: 2.0),
-                        )),
+                    color: OpaColors.yellowOpa,
+                    child: Text(
+                      "LOGIN",
+                      style: GoogleFonts.poppins(
+                        textStyle: const TextStyle(
+                          color: OpaColors.brownOpa,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          letterSpacing: 2.0
+                        ),
+                      )
+                    ),
                     onPressed: () {},
                   ),
                 ),
@@ -140,18 +141,20 @@ class LoginPage extends StatelessWidget {
                 Container(
                   width: double.infinity,
                   decoration: BoxDecoration(
-                    border: Border.all(color: Colors.brown, width: 2),
+                    border: Border.all(color: OpaColors.brownOpa, width: 2),
                     borderRadius: BorderRadius.circular(6),
                   ),
                   child: CupertinoButton(
-                    child: Text("CRIAR CONTA",
-                        style: GoogleFonts.poppins(
-                          textStyle: const TextStyle(
-                            color: Colors.brown,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        )),
+                    child: Text(
+                      "CRIAR CONTA",
+                      style: GoogleFonts.poppins(
+                        textStyle: const TextStyle(
+                          color: OpaColors.brownOpa,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      )
+                    ),
                     onPressed: () {
                       Navigator.push(
                         context,
