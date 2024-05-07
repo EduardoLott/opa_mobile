@@ -1,7 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:opamobile/data/UserData.dart';
 import 'colors.dart';
+
+//!D/EGL_emulation, !D/InputMethodManager, !I/ImeTracker, !W/RemoteInputConnectionImpl, !D/InsetsController, !E/FrameTracker, !I/TextInputPlugin, !W/WindowOnBackDispatcher
 
 // ignore: must_be_immutable
 class RegisterPage extends StatefulWidget {
@@ -19,7 +22,7 @@ class _RegisterPageState extends State<RegisterPage> {
   final TextEditingController passwordConfirmController =
       TextEditingController();
   final TextEditingController emailController = TextEditingController();
-  final TextEditingController userController = TextEditingController();
+  final TextEditingController usernameController = TextEditingController();
   final TextEditingController cpfController = TextEditingController();
   final TextEditingController birthDateController = TextEditingController();
   final TextEditingController genderController = TextEditingController();
@@ -189,7 +192,39 @@ class _RegisterPageState extends State<RegisterPage> {
                       ),
                     ),
                     onPressed: () {
-                      if (_formKey.currentState!.validate()) {}
+                      final String name = nameController.text;
+                      final String email = emailController.text;
+                      final String password = passwordController.text;
+                      final String cpf = cpfController.text;
+                      final String birthDate = birthDateController.text;
+                      final String gender = genderController.text;
+                      final String cep = cepController.text;
+                      final String phone = phoneController.text;
+                      final String city = cityController.text;
+                      final String neighborhood = neighborhoodController.text;
+                      final String state = stateController.text;
+                      final String street = streetController.text;
+                      final String streetNumber = streetNumberController.text;
+                      final String complement = complementController.text;
+                      final String username = usernameController.text;
+
+                      final UserData userCreate = UserData(
+                          username: username,
+                          password: password,
+                          email: email,
+                          name: name,
+                          gender: gender,
+                          cpf: cpf,
+                          phoneNumber: phone,
+                          street: street,
+                          neighborhood: neighborhood,
+                          streetNumber: streetNumber,
+                          complement: complement,
+                          city: city,
+                          state: state,
+                          cep: cep,
+                          birthDate: birthDate);
+
                       print('Nome: ${nameController.text}');
                       print('Email: ${emailController.text}');
                       print('Senha: ${passwordController.text}');
@@ -204,6 +239,8 @@ class _RegisterPageState extends State<RegisterPage> {
                       print('Rua: ${streetController.text}');
                       print('Número: ${streetNumberController.text}');
                       print('Complemento: ${complementController.text}');
+
+                      print(userCreate);
                     },
                   ),
                 ),
@@ -261,7 +298,7 @@ class _RegisterPageState extends State<RegisterPage> {
         label = complementController;
         break;
       case 'Usuário':
-        label = userController;
+        label = usernameController;
         break;
       case 'Telefone':
         label = phoneController;
