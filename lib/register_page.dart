@@ -2,7 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:opamobile/data/UserData.dart';
+import 'package:opamobile/service/CepService.dart';
 import 'colors.dart';
+import 'package:intl/intl.dart';
 
 //!D/EGL_emulation, !D/InputMethodManager, !I/ImeTracker, !W/RemoteInputConnectionImpl, !D/InsetsController, !E/FrameTracker, !I/TextInputPlugin, !W/WindowOnBackDispatcher
 
@@ -35,6 +37,23 @@ class _RegisterPageState extends State<RegisterPage> {
   final TextEditingController streetNumberController = TextEditingController();
   final TextEditingController complementController = TextEditingController();
 
+  String _cep = '';
+  String _street = '';
+  String _neighborhood = '';
+  String _city = '';
+  String _state = '';
+
+  void _updateAddress() async {
+    _cep = cepController.text;
+    final address = await CepService.fetchAddress(_cep);
+    setState(() {
+      _street = address['street'];
+      _neighborhood = address['neighborhood'];
+      _city = address['city'];
+      _state = address['state'];
+    });
+  }
+
   var label;
 
   DateTime selectedDate = DateTime.now();
@@ -42,13 +61,13 @@ class _RegisterPageState extends State<RegisterPage> {
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? pickedDate = await showDatePicker(
       context: context,
-      initialDate: selectedDate,
+      initialDate: DateTime.now(),
       firstDate: DateTime(1900),
-      lastDate: DateTime(2101),
+      lastDate: DateTime.now(),
     );
-    if (pickedDate != null && pickedDate != selectedDate) {
+    if (pickedDate != null) {
       setState(() {
-        selectedDate = pickedDate;
+        birthDateController.text = DateFormat('dd/MM/yyyy').format(pickedDate);
       });
     }
   }
@@ -224,22 +243,6 @@ class _RegisterPageState extends State<RegisterPage> {
                           state: state,
                           cep: cep,
                           birthDate: birthDate);
-
-                      print('Nome: ${nameController.text}');
-                      print('Email: ${emailController.text}');
-                      print('Senha: ${passwordController.text}');
-                      print('CPF: ${cpfController.text}');
-                      print('Data de Nascimento: ${birthDateController.text}');
-                      print('Gênero: ${genderController.text}');
-                      print('CEP: ${cepController.text}');
-                      print('Telefone: ${phoneController.text}');
-                      print('Cidade: ${cityController.text}');
-                      print('Bairro: ${neighborhoodController.text}');
-                      print('Estado: ${stateController.text}');
-                      print('Rua: ${streetController.text}');
-                      print('Número: ${streetNumberController.text}');
-                      print('Complemento: ${complementController.text}');
-
                       print(userCreate);
                     },
                   ),
@@ -254,9 +257,7 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 
   Widget _buildTextFormFieldWithLabel(BuildContext context,
-      {required String labelText,
-      required String placeholder,
-      bool obscureText = false}) {
+      {required String labelText, required String placeholder}) {
     switch (labelText) {
       case 'Nome':
         label = nameController;
@@ -303,9 +304,6 @@ class _RegisterPageState extends State<RegisterPage> {
       case 'Telefone':
         label = phoneController;
         break;
-      case 'Senha':
-        label = passwordController;
-        break;
       case 'Confirme a senha':
         label = passwordConfirmController;
         break;
@@ -322,6 +320,12 @@ class _RegisterPageState extends State<RegisterPage> {
               ),
             )),
         TextFormField(
+          onChanged: (value) {
+            setState(() {
+              _cep = value;
+            });
+            _updateAddress();
+          },
           obscureText: labelText == 'Senha' || labelText == 'Confirme a senha',
           controller: label,
           validator: (value) {
@@ -367,30 +371,31 @@ class _RegisterPageState extends State<RegisterPage> {
           onTap: () {
             _selectDate(context);
           },
-          child: Container(
-            padding: const EdgeInsets.all(15),
-            decoration: BoxDecoration(
-              border: Border.all(color: Color(0xFFD0D0D0), width: 2.0),
-              color: const Color(0xFFF8F8F8),
-              borderRadius: const BorderRadius.all(
-                Radius.circular(6),
-              ),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text('Data',
-                    style: GoogleFonts.poppins(
-                      textStyle: const TextStyle(
-                          color: Color(0xFF525252),
-                          fontSize: 16,
-                          fontWeight: FontWeight.w300),
-                    )),
-                const Icon(
+          child: AbsorbPointer(
+            child: TextFormField(
+              controller: birthDateController,
+              decoration: InputDecoration(
+                contentPadding: const EdgeInsets.all(15),
+                hintText: 'Selecione a data',
+                hintStyle: const TextStyle(
+                  color: Color(0xFF818181),
+                  fontSize: 16,
+                  fontWeight: FontWeight.w300,
+                ),
+                border: OutlineInputBorder(
+                  borderSide: const BorderSide(
+                    color: Color(0xFFD0D0D0),
+                    width: 2.0,
+                  ),
+                  borderRadius: BorderRadius.circular(6),
+                ),
+                fillColor: const Color(0xFFF8F8F8),
+                filled: true,
+                suffixIcon: const Icon(
                   Icons.calendar_today,
                   color: Color(0xFF818181),
                 ),
-              ],
+              ),
             ),
           ),
         ),
@@ -412,20 +417,24 @@ class _RegisterPageState extends State<RegisterPage> {
               ),
             )),
         DropdownButtonFormField<String>(
-          validator: (value) {
-            if (value == null || value.isEmpty) {
-              return 'Por favor, selecione seu gênero';
-            }
-            return null;
+          value: genderController.text.isNotEmpty
+              ? genderController.text
+              : null, // Defina o valor inicial como null
+          onChanged: (String? value) {
+            setState(() {
+              genderController.text = value ??
+                  ''; // Atualize o valor do controlador apenas quando um item é selecionado
+            });
           },
           decoration: InputDecoration(
             contentPadding:
                 const EdgeInsets.symmetric(horizontal: 15, vertical: 17),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(6),
-              borderSide: BorderSide(color: Color(0xFFD0D0D0), width: 2.0),
+              borderSide:
+                  const BorderSide(color: Color(0xFFD0D0D0), width: 2.0),
             ),
-            fillColor: Color(0xFFF8F8F8),
+            fillColor: const Color(0xFFF8F8F8),
             filled: true,
           ),
           items: ['Masculino', 'Feminino', 'Outro']
@@ -440,7 +449,6 @@ class _RegisterPageState extends State<RegisterPage> {
                         )),
                   ))
               .toList(),
-          onChanged: (String? value) {},
         ),
       ],
     );
