@@ -1,5 +1,3 @@
-import 'package:flutter/rendering.dart';
-
 class UserData {
   String username;
   String password;
