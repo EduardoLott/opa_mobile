@@ -1,8 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:opamobile/register_page.dart';
+import 'package:opamobile/pages/register/register_page.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:opamobile/colors.dart';
+import 'package:opamobile/pages/token-page/token_page.dart';
+import 'package:opamobile/utils/opa_colors.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key, Key});
@@ -33,7 +34,9 @@ class LoginPage extends StatelessWidget {
               children: [
                 SizedBox(
                   width: 180,
-                  child: Image.asset('assets/OPA_logo.png'),
+                  child: Image.asset(
+                    'assets/OPA_logo.png'
+                  ),
                 ),
                 const SizedBox(height: 60),
                 Column(
@@ -49,7 +52,7 @@ class LoginPage extends StatelessWidget {
                         )),
                     const SizedBox(height: 5),
                     CupertinoTextField(
-                      cursorColor: OpaColors.yellowOpa, //yellowOpa não está definido no seu código
+                      cursorColor: OpaColors.brownOpa, //yellowOpa não está definido no seu código
                       padding: const EdgeInsets.all(15),
                       placeholder: "Insira seu email",
                       placeholderStyle: GoogleFonts.poppins(
@@ -91,7 +94,7 @@ class LoginPage extends StatelessWidget {
                     const SizedBox(height: 5),
                     CupertinoTextField(
                       padding: const EdgeInsets.all(15),
-                      cursorColor: OpaColors.yellowOpa,
+                      cursorColor: OpaColors.brownOpa,
                       placeholder: "Insira sua senha",
                       obscureText: true,
                       placeholderStyle: GoogleFonts.poppins(
@@ -134,7 +137,12 @@ class LoginPage extends StatelessWidget {
                         ),
                       )
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => TokenPage())
+                      );
+                    },
                   ),
                 ),
                 const SizedBox(height: 15),

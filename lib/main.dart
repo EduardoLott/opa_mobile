@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:opamobile/login_page.dart';
+import 'package:opamobile/pages/login/login_page.dart';
 
 void main() {
   runApp(const MyApp());

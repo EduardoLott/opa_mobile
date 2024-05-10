@@ -60,6 +60,7 @@ flutter:
   uses-material-design: true
   assets:
     - assets/OPA_logo.png
+    - assets/mesa.png
     
 
   # To add assets to your application, add an assets section, like this:

@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:opamobile/colors.dart';
+import 'package:opamobile/utils/opa_colors.dart';
 
 // ignore: must_be_immutable
 class RegisterPage extends StatefulWidget {
