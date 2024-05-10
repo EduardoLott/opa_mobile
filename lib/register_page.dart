@@ -44,13 +44,17 @@ class _RegisterPageState extends State<RegisterPage> {
   String _state = '';
 
   void _updateAddress() async {
-    _cep = cepController.text;
-    final address = await CepService.fetchAddress(_cep);
+    final address = await CepService.fetchAddress(cepController.text);
     setState(() {
       _street = address['street'];
       _neighborhood = address['neighborhood'];
       _city = address['city'];
       _state = address['state'];
+
+      cityController.text = _city;
+      streetController.text = _street;
+      neighborhoodController.text = _neighborhood;
+      stateController.text = _state;
     });
   }
 
@@ -107,95 +111,95 @@ class _RegisterPageState extends State<RegisterPage> {
               children: [
                 _buildTextFormFieldWithLabel(
                   context,
-                  labelText: 'Nome',
+                  labelText: 'Nome:',
                   placeholder: 'Digite o seu nome completo',
                 ),
                 const SizedBox(height: 5),
                 _buildTextFormFieldWithLabel(
                   context,
-                  labelText: 'Email',
+                  labelText: 'Email:',
                   placeholder: 'Digite o seu email',
                 ),
                 const SizedBox(height: 5),
                 _buildTextFormFieldWithLabel(
                   context,
-                  labelText: 'Usuário',
+                  labelText: 'Usuário:',
                   placeholder: 'Digite o seu usuário',
                 ),
                 const SizedBox(height: 5),
                 _buildTextFormFieldWithLabel(
                   context,
-                  labelText: 'Senha',
+                  labelText: 'Senha:',
                   placeholder: 'Digite sua senha',
                 ),
                 const SizedBox(height: 5),
                 _buildTextFormFieldWithLabel(
                   context,
-                  labelText: 'Confirme a senha',
+                  labelText: 'Confirme a senha:',
                   placeholder: 'Confirme a senha',
                 ),
                 const SizedBox(height: 5),
                 _buildTextFormFieldWithLabel(
                   context,
-                  labelText: 'CPF',
+                  labelText: 'CPF:',
                   placeholder: 'Digite o seu CPF',
                 ),
                 const SizedBox(height: 5),
                 _buildDateInputWithLabel(
                   context,
-                  labelText: 'Data de nascimento',
+                  labelText: 'Data de nascimento:',
                 ),
                 const SizedBox(height: 5),
                 _buildGenderDropdownWithLabel(
                   context,
-                  labelText: 'Gênero',
+                  labelText: 'Gênero:',
                 ),
                 const SizedBox(height: 5),
                 _buildTextFormFieldWithLabel(
                   context,
-                  labelText: 'Telefone',
+                  labelText: 'Telefone:',
                   placeholder: 'Digite o seu número de telefone',
                 ),
                 const SizedBox(height: 5),
                 _buildTextFormFieldWithLabel(
                   context,
-                  labelText: 'CEP',
+                  labelText: 'CEP:',
                   placeholder: 'Digite o seu CEP',
                 ),
                 const SizedBox(height: 5),
                 _buildTextFormFieldWithLabel(
                   context,
-                  labelText: 'Cidade',
+                  labelText: 'Cidade:',
                   placeholder: 'Digite o nome da sua cidade',
                 ),
                 const SizedBox(height: 5),
                 _buildTextFormFieldWithLabel(
                   context,
-                  labelText: 'Bairro',
+                  labelText: 'Bairro:',
                   placeholder: 'Digite o nome do seu bairro',
                 ),
                 const SizedBox(height: 5),
                 _buildTextFormFieldWithLabel(
                   context,
-                  labelText: 'Estado',
+                  labelText: 'Estado:',
                   placeholder: 'Digite a sigla do seu estado',
                 ),
                 const SizedBox(height: 5),
                 _buildTextFormFieldWithLabel(
                   context,
-                  labelText: 'Rua',
+                  labelText: 'Rua:',
                   placeholder: 'Digite o nome da sua rua',
                 ),
                 const SizedBox(height: 5),
                 _buildTextFormFieldWithLabel(
                   context,
-                  labelText: 'Número',
+                  labelText: 'Número:',
                   placeholder: 'Digite o número da sua residência',
                 ),
                 const SizedBox(height: 5),
                 _buildTextFormFieldWithLabel(
                   context,
-                  labelText: 'Complemento',
+                  labelText: 'Complemento:',
                   placeholder: 'Digite o complemento (opcional)',
                 ),
                 const SizedBox(height: 30),
@@ -204,11 +208,15 @@ class _RegisterPageState extends State<RegisterPage> {
                   child: CupertinoButton(
                     padding: const EdgeInsets.all(17),
                     color: Colors.yellow,
-                    child: const Text(
-                      'CADASTRAR',
-                      style: TextStyle(
-                        color: Colors.black,
+                    child: Text(
+                      style: GoogleFonts.poppins(
+                        textStyle: const TextStyle(
+                            color: Color(0xFF525252),
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            letterSpacing: 2.0),
                       ),
+                      'CADASTRAR',
                     ),
                     onPressed: () {
                       final String name = nameController.text;
@@ -337,17 +345,26 @@ class _RegisterPageState extends State<RegisterPage> {
           decoration: InputDecoration(
             contentPadding: const EdgeInsets.all(15),
             hintText: placeholder,
-            hintStyle: const TextStyle(
+            hintStyle: GoogleFonts.poppins(
+              textStyle: const TextStyle(
                 color: Color(0xFF818181),
                 fontSize: 16,
-                fontWeight: FontWeight.w300),
-            border: OutlineInputBorder(
+                fontWeight: FontWeight.w300,
+              ),
+            ),
+            enabledBorder: OutlineInputBorder(
               borderSide:
                   const BorderSide(color: Color(0xFFD0D0D0), width: 2.0),
               borderRadius: BorderRadius.circular(6),
             ),
-            fillColor: const Color(0xFFF8F8F8),
+            focusedBorder: OutlineInputBorder(
+              borderSide: const BorderSide(
+                  color: Colors.yellow,
+                  width: 2.0), // Defina a cor amarela aqui
+              borderRadius: BorderRadius.circular(6),
+            ),
             filled: true,
+            fillColor: const Color(0xFFF8F8F8),
           ),
         ),
       ],
@@ -374,6 +391,14 @@ class _RegisterPageState extends State<RegisterPage> {
           child: AbsorbPointer(
             child: TextFormField(
               controller: birthDateController,
+              style: GoogleFonts.poppins(
+                // Definindo o estilo do texto
+                textStyle: const TextStyle(
+                  color: Color(0xFF525252), // Cor do texto após a escolha
+                  fontSize: 16,
+                  fontWeight: FontWeight.w300,
+                ),
+              ),
               decoration: InputDecoration(
                 contentPadding: const EdgeInsets.all(15),
                 hintText: 'Selecione a data',
@@ -382,15 +407,22 @@ class _RegisterPageState extends State<RegisterPage> {
                   fontSize: 16,
                   fontWeight: FontWeight.w300,
                 ),
-                border: OutlineInputBorder(
+                enabledBorder: OutlineInputBorder(
                   borderSide: const BorderSide(
                     color: Color(0xFFD0D0D0),
                     width: 2.0,
                   ),
                   borderRadius: BorderRadius.circular(6),
                 ),
-                fillColor: const Color(0xFFF8F8F8),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: const BorderSide(
+                    color: Colors.yellow,
+                    width: 2.0,
+                  ),
+                  borderRadius: BorderRadius.circular(6),
+                ),
                 filled: true,
+                fillColor: const Color(0xFFF8F8F8),
                 suffixIcon: const Icon(
                   Icons.calendar_today,
                   color: Color(0xFF818181),
@@ -417,36 +449,57 @@ class _RegisterPageState extends State<RegisterPage> {
               ),
             )),
         DropdownButtonFormField<String>(
-          value: genderController.text.isNotEmpty
-              ? genderController.text
-              : null, // Defina o valor inicial como null
+          value:
+              genderController.text.isNotEmpty ? genderController.text : null,
           onChanged: (String? value) {
             setState(() {
-              genderController.text = value ??
-                  ''; // Atualize o valor do controlador apenas quando um item é selecionado
+              genderController.text = value ?? '';
             });
           },
           decoration: InputDecoration(
-            contentPadding:
-                const EdgeInsets.symmetric(horizontal: 15, vertical: 17),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(6),
+            contentPadding: const EdgeInsets.all(15),
+            hintText:
+                'Selecione o gênero', // Adicionando um hintText para orientação do usuário
+            hintStyle: GoogleFonts.poppins(
+              textStyle: const TextStyle(
+                color: Color(0xFF818181),
+                fontSize: 16,
+                fontWeight: FontWeight.w300,
+              ),
+            ),
+            enabledBorder: OutlineInputBorder(
               borderSide:
                   const BorderSide(color: Color(0xFFD0D0D0), width: 2.0),
+              borderRadius: BorderRadius.circular(6),
             ),
-            fillColor: const Color(0xFFF8F8F8),
+            focusedBorder: OutlineInputBorder(
+              borderSide: const BorderSide(
+                  color: Colors.yellow,
+                  width: 2.0), // Defina a cor amarela aqui
+              borderRadius: BorderRadius.circular(6),
+            ),
             filled: true,
+            fillColor: const Color(0xFFF8F8F8),
           ),
+          selectedItemBuilder: (BuildContext context) {
+            return ['Masculino', 'Feminino', 'Outro']
+                .map<Widget>((String item) {
+              return Text(
+                item,
+                style: GoogleFonts.poppins(
+                  textStyle: const TextStyle(
+                    color: Color(0xFF818181),
+                    fontSize: 16,
+                    fontWeight: FontWeight.w300,
+                  ),
+                ),
+              );
+            }).toList();
+          },
           items: ['Masculino', 'Feminino', 'Outro']
               .map((gender) => DropdownMenuItem<String>(
                     value: gender,
-                    child: Text(gender,
-                        style: GoogleFonts.poppins(
-                          textStyle: const TextStyle(
-                              color: Color(0xFF525252),
-                              fontSize: 16,
-                              fontWeight: FontWeight.w300),
-                        )),
+                    child: Text(gender),
                   ))
               .toList(),
         ),
