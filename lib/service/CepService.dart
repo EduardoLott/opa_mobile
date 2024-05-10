@@ -8,6 +8,7 @@ class CepService {
 
     if (response.statusCode == 200) {
       final parsedJson = jsonDecode(response.body);
+      print("CEP encontrado com sucesso!");
       return {
         'street': parsedJson['logradouro'],
         'neighborhood': parsedJson['bairro'],
