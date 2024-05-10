@@ -58,12 +58,6 @@ class LoginPage extends StatelessWidget {
                             fontSize: 16,
                             fontWeight: FontWeight.w300),
                       ),
-                      style: GoogleFonts.poppins(
-                        textStyle: const TextStyle(
-                            color: Color(0xFF818181),
-                            fontSize: 16,
-                            fontWeight: FontWeight.w300),
-                      ),
                       decoration: BoxDecoration(
                         border: Border.all(
                             color: const Color(0xFFD0D0D0), width: 2.0),
