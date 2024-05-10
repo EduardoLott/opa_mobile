@@ -2,7 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:opamobile/data/UserData.dart';
+import 'package:opamobile/service/CepService.dart';
 import 'colors.dart';
+import 'package:intl/intl.dart';
 
 //!D/EGL_emulation, !D/InputMethodManager, !I/ImeTracker, !W/RemoteInputConnectionImpl, !D/InsetsController, !E/FrameTracker, !I/TextInputPlugin, !W/WindowOnBackDispatcher
 
@@ -35,6 +37,27 @@ class _RegisterPageState extends State<RegisterPage> {
   final TextEditingController streetNumberController = TextEditingController();
   final TextEditingController complementController = TextEditingController();
 
+  String _cep = '';
+  String _street = '';
+  String _neighborhood = '';
+  String _city = '';
+  String _state = '';
+
+  void _updateAddress() async {
+    final address = await CepService.fetchAddress(cepController.text);
+    setState(() {
+      _street = address['street'];
+      _neighborhood = address['neighborhood'];
+      _city = address['city'];
+      _state = address['state'];
+
+      cityController.text = _city;
+      streetController.text = _street;
+      neighborhoodController.text = _neighborhood;
+      stateController.text = _state;
+    });
+  }
+
   var label;
 
   DateTime selectedDate = DateTime.now();
@@ -42,13 +65,13 @@ class _RegisterPageState extends State<RegisterPage> {
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? pickedDate = await showDatePicker(
       context: context,
-      initialDate: selectedDate,
+      initialDate: DateTime.now(),
       firstDate: DateTime(1900),
-      lastDate: DateTime(2101),
+      lastDate: DateTime.now(),
     );
-    if (pickedDate != null && pickedDate != selectedDate) {
+    if (pickedDate != null) {
       setState(() {
-        selectedDate = pickedDate;
+        birthDateController.text = DateFormat('dd/MM/yyyy').format(pickedDate);
       });
     }
   }
@@ -88,95 +111,95 @@ class _RegisterPageState extends State<RegisterPage> {
               children: [
                 _buildTextFormFieldWithLabel(
                   context,
-                  labelText: 'Nome',
+                  labelText: 'Nome:',
                   placeholder: 'Digite o seu nome completo',
                 ),
                 const SizedBox(height: 5),
                 _buildTextFormFieldWithLabel(
                   context,
-                  labelText: 'Email',
+                  labelText: 'Email:',
                   placeholder: 'Digite o seu email',
                 ),
                 const SizedBox(height: 5),
                 _buildTextFormFieldWithLabel(
                   context,
-                  labelText: 'Usuário',
+                  labelText: 'Usuário:',
                   placeholder: 'Digite o seu usuário',
                 ),
                 const SizedBox(height: 5),
                 _buildTextFormFieldWithLabel(
                   context,
-                  labelText: 'Senha',
+                  labelText: 'Senha:',
                   placeholder: 'Digite sua senha',
                 ),
                 const SizedBox(height: 5),
                 _buildTextFormFieldWithLabel(
                   context,
-                  labelText: 'Confirme a senha',
+                  labelText: 'Confirme a senha:',
                   placeholder: 'Confirme a senha',
                 ),
                 const SizedBox(height: 5),
                 _buildTextFormFieldWithLabel(
                   context,
-                  labelText: 'CPF',
+                  labelText: 'CPF:',
                   placeholder: 'Digite o seu CPF',
                 ),
                 const SizedBox(height: 5),
                 _buildDateInputWithLabel(
                   context,
-                  labelText: 'Data de nascimento',
+                  labelText: 'Data de nascimento:',
                 ),
                 const SizedBox(height: 5),
                 _buildGenderDropdownWithLabel(
                   context,
-                  labelText: 'Gênero',
+                  labelText: 'Gênero:',
                 ),
                 const SizedBox(height: 5),
                 _buildTextFormFieldWithLabel(
                   context,
-                  labelText: 'Telefone',
+                  labelText: 'Telefone:',
                   placeholder: 'Digite o seu número de telefone',
                 ),
                 const SizedBox(height: 5),
                 _buildTextFormFieldWithLabel(
                   context,
-                  labelText: 'CEP',
+                  labelText: 'CEP:',
                   placeholder: 'Digite o seu CEP',
                 ),
                 const SizedBox(height: 5),
                 _buildTextFormFieldWithLabel(
                   context,
-                  labelText: 'Cidade',
+                  labelText: 'Cidade:',
                   placeholder: 'Digite o nome da sua cidade',
                 ),
                 const SizedBox(height: 5),
                 _buildTextFormFieldWithLabel(
                   context,
-                  labelText: 'Bairro',
+                  labelText: 'Bairro:',
                   placeholder: 'Digite o nome do seu bairro',
                 ),
                 const SizedBox(height: 5),
                 _buildTextFormFieldWithLabel(
                   context,
-                  labelText: 'Estado',
+                  labelText: 'Estado:',
                   placeholder: 'Digite a sigla do seu estado',
                 ),
                 const SizedBox(height: 5),
                 _buildTextFormFieldWithLabel(
                   context,
-                  labelText: 'Rua',
+                  labelText: 'Rua:',
                   placeholder: 'Digite o nome da sua rua',
                 ),
                 const SizedBox(height: 5),
                 _buildTextFormFieldWithLabel(
                   context,
-                  labelText: 'Número',
+                  labelText: 'Número:',
                   placeholder: 'Digite o número da sua residência',
                 ),
                 const SizedBox(height: 5),
                 _buildTextFormFieldWithLabel(
                   context,
-                  labelText: 'Complemento',
+                  labelText: 'Complemento:',
                   placeholder: 'Digite o complemento (opcional)',
                 ),
                 const SizedBox(height: 30),
@@ -185,11 +208,15 @@ class _RegisterPageState extends State<RegisterPage> {
                   child: CupertinoButton(
                     padding: const EdgeInsets.all(17),
                     color: Colors.yellow,
-                    child: const Text(
-                      'CADASTRAR',
-                      style: TextStyle(
-                        color: Colors.black,
+                    child: Text(
+                      style: GoogleFonts.poppins(
+                        textStyle: const TextStyle(
+                            color: Color(0xFF525252),
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            letterSpacing: 2.0),
                       ),
+                      'CADASTRAR',
                     ),
                     onPressed: () {
                       final String name = nameController.text;
@@ -224,22 +251,6 @@ class _RegisterPageState extends State<RegisterPage> {
                           state: state,
                           cep: cep,
                           birthDate: birthDate);
-
-                      print('Nome: ${nameController.text}');
-                      print('Email: ${emailController.text}');
-                      print('Senha: ${passwordController.text}');
-                      print('CPF: ${cpfController.text}');
-                      print('Data de Nascimento: ${birthDateController.text}');
-                      print('Gênero: ${genderController.text}');
-                      print('CEP: ${cepController.text}');
-                      print('Telefone: ${phoneController.text}');
-                      print('Cidade: ${cityController.text}');
-                      print('Bairro: ${neighborhoodController.text}');
-                      print('Estado: ${stateController.text}');
-                      print('Rua: ${streetController.text}');
-                      print('Número: ${streetNumberController.text}');
-                      print('Complemento: ${complementController.text}');
-
                       print(userCreate);
                     },
                   ),
@@ -254,9 +265,7 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 
   Widget _buildTextFormFieldWithLabel(BuildContext context,
-      {required String labelText,
-      required String placeholder,
-      bool obscureText = false}) {
+      {required String labelText, required String placeholder}) {
     switch (labelText) {
       case 'Nome':
         label = nameController;
@@ -303,9 +312,6 @@ class _RegisterPageState extends State<RegisterPage> {
       case 'Telefone':
         label = phoneController;
         break;
-      case 'Senha':
-        label = passwordController;
-        break;
       case 'Confirme a senha':
         label = passwordConfirmController;
         break;
@@ -322,6 +328,12 @@ class _RegisterPageState extends State<RegisterPage> {
               ),
             )),
         TextFormField(
+          onChanged: (value) {
+            setState(() {
+              _cep = value;
+            });
+            _updateAddress();
+          },
           obscureText: labelText == 'Senha' || labelText == 'Confirme a senha',
           controller: label,
           validator: (value) {
@@ -333,17 +345,26 @@ class _RegisterPageState extends State<RegisterPage> {
           decoration: InputDecoration(
             contentPadding: const EdgeInsets.all(15),
             hintText: placeholder,
-            hintStyle: const TextStyle(
+            hintStyle: GoogleFonts.poppins(
+              textStyle: const TextStyle(
                 color: Color(0xFF818181),
                 fontSize: 16,
-                fontWeight: FontWeight.w300),
-            border: OutlineInputBorder(
+                fontWeight: FontWeight.w300,
+              ),
+            ),
+            enabledBorder: OutlineInputBorder(
               borderSide:
                   const BorderSide(color: Color(0xFFD0D0D0), width: 2.0),
               borderRadius: BorderRadius.circular(6),
             ),
-            fillColor: const Color(0xFFF8F8F8),
+            focusedBorder: OutlineInputBorder(
+              borderSide: const BorderSide(
+                  color: Colors.yellow,
+                  width: 2.0), // Defina a cor amarela aqui
+              borderRadius: BorderRadius.circular(6),
+            ),
             filled: true,
+            fillColor: const Color(0xFFF8F8F8),
           ),
         ),
       ],
@@ -367,30 +388,46 @@ class _RegisterPageState extends State<RegisterPage> {
           onTap: () {
             _selectDate(context);
           },
-          child: Container(
-            padding: const EdgeInsets.all(15),
-            decoration: BoxDecoration(
-              border: Border.all(color: Color(0xFFD0D0D0), width: 2.0),
-              color: const Color(0xFFF8F8F8),
-              borderRadius: const BorderRadius.all(
-                Radius.circular(6),
+          child: AbsorbPointer(
+            child: TextFormField(
+              controller: birthDateController,
+              style: GoogleFonts.poppins(
+                // Definindo o estilo do texto
+                textStyle: const TextStyle(
+                  color: Color(0xFF525252), // Cor do texto após a escolha
+                  fontSize: 16,
+                  fontWeight: FontWeight.w300,
+                ),
               ),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text('Data',
-                    style: GoogleFonts.poppins(
-                      textStyle: const TextStyle(
-                          color: Color(0xFF525252),
-                          fontSize: 16,
-                          fontWeight: FontWeight.w300),
-                    )),
-                const Icon(
+              decoration: InputDecoration(
+                contentPadding: const EdgeInsets.all(15),
+                hintText: 'Selecione a data',
+                hintStyle: const TextStyle(
+                  color: Color(0xFF818181),
+                  fontSize: 16,
+                  fontWeight: FontWeight.w300,
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: const BorderSide(
+                    color: Color(0xFFD0D0D0),
+                    width: 2.0,
+                  ),
+                  borderRadius: BorderRadius.circular(6),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: const BorderSide(
+                    color: Colors.yellow,
+                    width: 2.0,
+                  ),
+                  borderRadius: BorderRadius.circular(6),
+                ),
+                filled: true,
+                fillColor: const Color(0xFFF8F8F8),
+                suffixIcon: const Icon(
                   Icons.calendar_today,
                   color: Color(0xFF818181),
                 ),
-              ],
+              ),
             ),
           ),
         ),
@@ -412,35 +449,59 @@ class _RegisterPageState extends State<RegisterPage> {
               ),
             )),
         DropdownButtonFormField<String>(
-          validator: (value) {
-            if (value == null || value.isEmpty) {
-              return 'Por favor, selecione seu gênero';
-            }
-            return null;
+          value:
+              genderController.text.isNotEmpty ? genderController.text : null,
+          onChanged: (String? value) {
+            setState(() {
+              genderController.text = value ?? '';
+            });
           },
           decoration: InputDecoration(
-            contentPadding:
-                const EdgeInsets.symmetric(horizontal: 15, vertical: 17),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(6),
-              borderSide: BorderSide(color: Color(0xFFD0D0D0), width: 2.0),
+            contentPadding: const EdgeInsets.all(15),
+            hintText:
+                'Selecione o gênero', // Adicionando um hintText para orientação do usuário
+            hintStyle: GoogleFonts.poppins(
+              textStyle: const TextStyle(
+                color: Color(0xFF818181),
+                fontSize: 16,
+                fontWeight: FontWeight.w300,
+              ),
             ),
-            fillColor: Color(0xFFF8F8F8),
+            enabledBorder: OutlineInputBorder(
+              borderSide:
+                  const BorderSide(color: Color(0xFFD0D0D0), width: 2.0),
+              borderRadius: BorderRadius.circular(6),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderSide: const BorderSide(
+                  color: Colors.yellow,
+                  width: 2.0), // Defina a cor amarela aqui
+              borderRadius: BorderRadius.circular(6),
+            ),
             filled: true,
+            fillColor: const Color(0xFFF8F8F8),
           ),
+          selectedItemBuilder: (BuildContext context) {
+            return ['Masculino', 'Feminino', 'Outro']
+                .map<Widget>((String item) {
+              return Text(
+                item,
+                style: GoogleFonts.poppins(
+                  textStyle: const TextStyle(
+                    color: Color(0xFF818181),
+                    fontSize: 16,
+                    fontWeight: FontWeight.w300,
+                  ),
+                ),
+              );
+            }).toList();
+          },
           items: ['Masculino', 'Feminino', 'Outro']
               .map((gender) => DropdownMenuItem<String>(
                     value: gender,
-                    child: Text(gender,
-                        style: GoogleFonts.poppins(
-                          textStyle: const TextStyle(
-                              color: Color(0xFF525252),
-                              fontSize: 16,
-                              fontWeight: FontWeight.w300),
-                        )),
+                    child: Text(gender),
                   ))
               .toList(),
-          onChanged: (String? value) {},
         ),
       ],
     );
