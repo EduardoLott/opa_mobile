@@ -267,52 +267,52 @@ class _RegisterPageState extends State<RegisterPage> {
   Widget _buildTextFormFieldWithLabel(BuildContext context,
       {required String labelText, required String placeholder}) {
     switch (labelText) {
-      case 'Nome':
+      case 'Nome:':
         label = nameController;
         break;
-      case 'Email':
+      case 'Email:':
         label = emailController;
         break;
-      case 'Senha':
+      case 'Senha:':
         label = passwordController;
         break;
-      case 'CPF':
+      case 'CPF:':
         label = cpfController;
         break;
-      case 'Data de Nascimento':
+      case 'Data de Nascimento:':
         label = birthDateController;
         break;
-      case 'Gênero':
+      case 'Gênero:':
         label = genderController;
         break;
-      case 'CEP':
+      case 'CEP:':
         label = cepController;
         break;
-      case 'Cidade':
+      case 'Cidade:':
         label = cityController;
         break;
-      case 'Bairro':
+      case 'Bairro:':
         label = neighborhoodController;
         break;
-      case 'Estado':
+      case 'Estado:':
         label = stateController;
         break;
-      case 'Rua':
+      case 'Rua:':
         label = streetController;
         break;
-      case 'Número':
+      case 'Número:':
         label = streetNumberController;
         break;
-      case 'Complemento':
+      case 'Complemento:':
         label = complementController;
         break;
-      case 'Usuário':
+      case 'Usuário:':
         label = usernameController;
         break;
-      case 'Telefone':
+      case 'Telefone:':
         label = phoneController;
         break;
-      case 'Confirme a senha':
+      case 'Confirme a senha:':
         label = passwordConfirmController;
         break;
     }
@@ -334,7 +334,8 @@ class _RegisterPageState extends State<RegisterPage> {
             });
             _updateAddress();
           },
-          obscureText: labelText == 'Senha' || labelText == 'Confirme a senha',
+          obscureText:
+              labelText == 'Senha:' || labelText == 'Confirme a senha:',
           controller: label,
           validator: (value) {
             if (value == null || value.isEmpty) {
