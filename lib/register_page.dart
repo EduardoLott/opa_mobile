@@ -3,16 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:opamobile/data/UserData.dart';
 import 'package:opamobile/service/CepService.dart';
-import 'colors.dart';
 import 'package:intl/intl.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 //!D/EGL_emulation, !D/InputMethodManager, !I/ImeTracker, !W/RemoteInputConnectionImpl, !D/InsetsController, !E/FrameTracker, !I/TextInputPlugin, !W/WindowOnBackDispatcher
 
 // ignore: must_be_immutable
 class RegisterPage extends StatefulWidget {
-  RegisterPage({Key? key}) : super(key: key);
+  const RegisterPage({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _RegisterPageState createState() => _RegisterPageState();
 }
 
@@ -37,7 +39,6 @@ class _RegisterPageState extends State<RegisterPage> {
   final TextEditingController streetNumberController = TextEditingController();
   final TextEditingController complementController = TextEditingController();
 
-  String _cep = '';
   String _street = '';
   String _neighborhood = '';
   String _city = '';
@@ -58,6 +59,7 @@ class _RegisterPageState extends State<RegisterPage> {
     });
   }
 
+  // ignore: prefer_typing_uninitialized_variables
   var label;
 
   DateTime selectedDate = DateTime.now();
@@ -71,7 +73,7 @@ class _RegisterPageState extends State<RegisterPage> {
     );
     if (pickedDate != null) {
       setState(() {
-        birthDateController.text = DateFormat('dd/MM/yyyy').format(pickedDate);
+        birthDateController.text = DateFormat('yyyy-MM-dd').format(pickedDate);
       });
     }
   }
@@ -218,7 +220,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       ),
                       'CADASTRAR',
                     ),
-                    onPressed: () {
+                    onPressed: () async {
                       final String name = nameController.text;
                       final String email = emailController.text;
                       final String password = passwordController.text;
@@ -251,7 +253,29 @@ class _RegisterPageState extends State<RegisterPage> {
                           state: state,
                           cep: cep,
                           birthDate: birthDate);
-                      print(userCreate);
+
+                      final jsonData = userCreate.toJson();
+                      //ws://127.0.0.1:36761/iTKt7zklkAk=/ws
+                      try {
+                        final response = await http.post(
+                          Uri.parse('http://192.168.0.36:3000/opa-person'),
+                          headers: <String, String>{
+                            'Content-Type': 'application/json; charset=UTF-8',
+                          },
+                          body: jsonEncode(jsonData),
+                        );
+
+                        if (response.statusCode == 200) {
+                          print("Usuário cadastrado com sucesso! ");
+                        } else {
+                          print(
+                              "Falha ao cadastrar o usuário: ${response.body}");
+                          print(response.statusCode);
+                        }
+                      } catch (e) {
+                        print("Erro ao fazer requisição: $e");
+                      }
+                      print(jsonData);
                     },
                   ),
                 ),
@@ -329,9 +353,7 @@ class _RegisterPageState extends State<RegisterPage> {
             )),
         TextFormField(
           onChanged: (value) {
-            setState(() {
-              _cep = value;
-            });
+            setState(() {});
             _updateAddress();
           },
           obscureText:
