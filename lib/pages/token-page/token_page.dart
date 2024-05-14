@@ -89,9 +89,18 @@ class TokenPage extends StatelessWidget{
                       height: 60,
                       child: 
                       CupertinoButton(
-                        child: Text('Entrar'),
                         color: OpaColors.yellowOpa, 
                         onPressed: () {  },
+                        child: Text(
+                          'ENTRAR',
+                          style: GoogleFonts.poppins(
+                            textStyle: const TextStyle(
+                            color: OpaColors.brownOpa,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            letterSpacing: 2.0),
+                      ),  
+                        ),
                         
                       ),
                     ),

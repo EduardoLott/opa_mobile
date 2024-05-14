@@ -33,23 +33,39 @@ class UserModel {
     required this.birthDate,
   });
 
-  Map<String, dynamic> toMap() {
+  Map<String, dynamic> toJson() {
     return {
-      'username': username,
-      'password': password,
-      'email': email,
       'name': name,
-      'gender': gender,
-      'cpf': cpf,
-      'phoneNumber': phoneNumber,
-      'street': street,
-      'neighborhood': neighborhood,
-      'streetNumber': streetNumber,
-      'complement': complement,
-      'city': city,
-      'state': state,
-      'cep': cep,
       'birthDate': birthDate,
+      'cep': cep,
+      'city': city,
+      'complement': complement,
+      'cpf': cpf,
+      'email': email,
+      'gender': _genderToEnum(gender),
+      'neighborhood': neighborhood,
+      'password': password,
+      'phoneNumber': phoneNumber,
+      'state': state,
+      'street': street,
+      'streetNumber': streetNumber,
+      'username': username,
     };
+  }
+
+  _genderToEnum(String gender) {
+    switch (gender) {
+      case "Masculino":
+        return "0";
+      case "Feminino":
+        return "1";
+      default:
+        return "2";
+    }
+  }
+
+  @override
+  String toString() {
+    return 'User{username: $username, password: $password, email: $email, name: $name, gender: $gender, cpf: $cpf, phoneNumber: $phoneNumber, street: $street, neighborhood: $neighborhood,streetNumber: $streetNumber, complement: $complement, city: $city, state: $state, cep: $cep, birthDate: $birthDate';
   }
 }
