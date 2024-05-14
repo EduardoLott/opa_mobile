@@ -1,11 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:opamobile/utils/opa_colors.dart';
 
 class TokenPage extends StatelessWidget{
-  const TokenPage ({super.key,Key});
+  const TokenPage ({super.key});
   
   @override
   Widget build(BuildContext context) {
@@ -30,7 +29,7 @@ class TokenPage extends StatelessWidget{
             )
           ),
           body: Center(
-            child: Container(
+            child: SizedBox(
               // color: Colors.red,
               width: MediaQuery.of(context).size.width,
               child:
@@ -104,7 +103,7 @@ class TokenPage extends StatelessWidget{
                         
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 300,
                       height: 300,
                       // isso aqui é gambiarra pura ta kkkkkkk
