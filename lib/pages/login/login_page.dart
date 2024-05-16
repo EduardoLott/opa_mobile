@@ -146,8 +146,8 @@ class _LoginPageState extends State<LoginPage> {
                           final String username = _usernameController.text;
                           final String password = _passwordController.text;
 
-                          final UserLogin userLogin =
-                              UserLogin(username: username, password: password);
+                          final UserLoginModel userLogin = UserLoginModel(
+                              username: username, password: password);
 
                           final jsonData = userLogin.toJson();
 

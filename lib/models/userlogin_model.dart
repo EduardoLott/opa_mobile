@@ -1,8 +1,8 @@
-class UserLogin {
+class UserLoginModel {
   String username;
   String password;
 
-  UserLogin({required this.username, required this.password});
+  UserLoginModel({required this.username, required this.password});
 
   Map<String, dynamic> toJson() {
     return {
