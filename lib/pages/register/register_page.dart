@@ -1,9 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:opamobile/pages/login/login_page.dart';
+import 'package:opamobile/services/CepService.dart';
 import 'package:opamobile/utils/opa_colors.dart';
 import 'package:opamobile/models/user_model.dart';
-import 'package:opamobile/service/CepService.dart';
 import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -266,8 +267,13 @@ class _RegisterPageState extends State<RegisterPage> {
                           body: jsonEncode(jsonData),
                         );
 
-                        if (response.statusCode == 200) {
+                        if (response.statusCode == 200 ||
+                            response.statusCode == 201) {
                           print("Usuário cadastrado com sucesso! ");
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => LoginPage()));
                         } else {
                           print(
                               "Falha ao cadastrar o usuário: ${response.body}");
