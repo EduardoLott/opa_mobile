@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:opamobile/pages/table/table_page.dart';
+import 'package:opamobile/pages/token-page/token_page_service.dart';
 import 'package:opamobile/utils/opa_colors.dart';
 
 class TokenPage extends StatefulWidget {
@@ -11,6 +13,9 @@ class TokenPage extends StatefulWidget {
 }
 
 class _TokenPageState extends State<TokenPage> {
+
+    final TextEditingController _tokenController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -66,6 +71,7 @@ class _TokenPageState extends State<TokenPage> {
                   width: 300,
                   height: 50,
                   child: CupertinoTextField(
+                    controller:_tokenController,
                     padding: const EdgeInsets.all(15),
                     placeholder: "ME-123456",
                     textAlign: TextAlign.center,
@@ -94,7 +100,18 @@ class _TokenPageState extends State<TokenPage> {
                   height: 60,
                   child: CupertinoButton(
                     color: OpaColors.yellowOpa,
-                    onPressed: () {},
+                    onPressed: () {
+                      final token = _tokenController.text;
+                      if(_tokenController.text.isNotEmpty){
+                        TokenPageService.tokenToBack(token);
+                        Navigator.push(
+                          (context),
+                          MaterialPageRoute(
+                            builder:(context) => TablePage()
+                          )
+                        );
+                      }
+                    },
                     child: Text(
                       'ENTRAR',
                       style: GoogleFonts.poppins(
