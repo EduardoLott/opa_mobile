@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:opamobile/pages/login/login_page.dart';
+import 'package:opamobile/pages/menu/menu_page.dart';
 import 'package:opamobile/pages/table/table_page.dart';
 
 void main() {
@@ -19,7 +20,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const TablePage(),
+      home: const MenuPage(),
     );
   }
 }

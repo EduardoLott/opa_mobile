@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:opamobile/pages/menu/menu_page.dart';
 import 'package:opamobile/utils/opa_colors.dart';
 
 class TablePage extends StatefulWidget {
@@ -114,7 +115,13 @@ class _TablePageState extends State<TablePage>{
                         fixedSize: Size(75, 75),
                         backgroundColor: OpaColors.yellowOpa
                       ),
-                      onPressed: (){},
+                      onPressed: (){
+                        Navigator.push(context, 
+                          MaterialPageRoute(
+                            builder: (context) => MenuPage()
+                          ),
+                        );
+                      },
                       child: Image.asset(
                         'assets/menu.png',
                         height: 75,

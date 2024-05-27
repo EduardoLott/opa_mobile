@@ -4,7 +4,7 @@ import 'dart:convert';
 class CepService {
   static Future<Map<String, dynamic>> fetchAddress(String cep) async {
     final response =
-        await http.get(Uri.parse('https://viacep.com.br/ws/${cep}/json/'));
+      await http.get(Uri.parse('https://viacep.com.br/ws/${cep}/json/'));
 
     if (response.statusCode == 200) {
       final parsedJson = jsonDecode(response.body);
