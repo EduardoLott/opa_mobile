@@ -69,6 +69,7 @@ flutter:
     - assets/Opa_with_fog.png
     - assets/noneUser.png
     - assets/hamburger.png
+    - assets/productitem100x100.png
     
 
   # To add assets to your application, add an assets section, like this:

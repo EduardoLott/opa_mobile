@@ -6,6 +6,7 @@ import 'package:opamobile/models/userlogin_model.dart';
 import 'package:opamobile/pages/register/register_page.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:opamobile/pages/token-page/token_page.dart';
+import 'package:opamobile/services/auth_service.dart';
 import 'package:opamobile/utils/opa_colors.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -172,9 +173,12 @@ class _LoginPageState extends State<LoginPage> {
 
                                 final responseData = jsonDecode(response.body);
                                 final token = responseData['token'];
+                                final id = responseData['id'];
 
-                                final prefs =
-                                    await SharedPreferences.getInstance();
+                                AuthService.setUserId(id);
+                                AuthService.setUserToken(token);
+
+                                final prefs = await SharedPreferences.getInstance();
                                 await prefs.setString('authToken', token);
                                 Navigator.push(
                                     context,

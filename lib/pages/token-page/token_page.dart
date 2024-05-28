@@ -20,34 +20,13 @@ class _TokenPageState extends State<TokenPage> {
   final TextEditingController _tokenController = TextEditingController();
   String? authToken;
 
-  @override
-  void initState() {
-    super.initState();
-    _loadToken();
-  }
 
-  Future<void> _loadToken() async {
-    final prefs = await SharedPreferences.getInstance();
-    setState(() {
-      authToken = prefs.getString('authToken');
-    });
-  }
 
-  Future<void> _submitToken() async {
+  Future<void> submitTableToken() async {
     final token = _tokenController.text;
     if (authToken != null && token.isNotEmpty) {
-      final response = await http.post(
-        Uri.parse(
-            'http://192.168.0.36:3000/table'), // Substitua pelo seu endpoint real
-        headers: {
-          'Content-Type': 'application/json; charset=UTF-8',
-          'Authorization': 'Bearer $authToken', // Passar o token nos headers
-        },
-        body: jsonEncode({'tokenId': token, 'custumerId': authToken}),
-      );
-
+      var response = await TokenPageService.tokenToBack(token);
       if (response.statusCode == 200) {
-        // Sucesso, navegue para a próxima página
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => TablePage()),
@@ -146,7 +125,7 @@ class _TokenPageState extends State<TokenPage> {
                   child: CupertinoButton(
                     color: OpaColors.yellowOpa,
                     onPressed:
-                        _submitToken, // Chama o método _submitToken ao pressionar o botão
+                      submitTableToken, // Chama o método _submitToken ao pressionar o botão
                     child: Text(
                       'ENTRAR',
                       style: GoogleFonts.poppins(
