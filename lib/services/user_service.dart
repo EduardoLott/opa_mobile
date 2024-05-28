@@ -7,8 +7,11 @@ class UserSingleton {
     return _userInstance;
   }
 
-  void setUserInfo(UserSingleton userInfo) {
+  static void setUserInfo(UserSingleton userInfo) {
     _userInstance = userInfo;
   }
 
+  static getUserInfo(){
+    return _userInstance;
+  }
 }

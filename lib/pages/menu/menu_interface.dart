@@ -1,7 +1,7 @@
 class Menu{
   int id;
   String name;
-  int price;
+  double price;
 
   Menu({required this.id,required this.name, required this.price});
 }
