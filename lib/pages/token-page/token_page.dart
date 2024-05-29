@@ -20,18 +20,20 @@ class _TokenPageState extends State<TokenPage> {
   final TextEditingController _tokenController = TextEditingController();
   String? authToken;
 
-
-
   Future<void> submitTableToken() async {
     final token = _tokenController.text;
-    if (authToken != null && token.isNotEmpty) {
-      var response = await TokenPageService.tokenToBack(token);
-      if (response.statusCode == 200) {
+    final tokenint = int.parse(token);
+    print(tokenint);
+    if (token.isNotEmpty) {
+      var response = await TokenPageService.tokenToBack(tokenint);
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        print("Entrou na mesa!");
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => TablePage()),
         );
       } else {
+        print(response.statusCode);
         // Falha, exiba uma mensagem de erro
         print('Falha ao enviar o token da mesa: ${response.body}');
       }
@@ -125,7 +127,7 @@ class _TokenPageState extends State<TokenPage> {
                   child: CupertinoButton(
                     color: OpaColors.yellowOpa,
                     onPressed:
-                      submitTableToken, // Chama o método _submitToken ao pressionar o botão
+                        submitTableToken, // Chama o método _submitToken ao pressionar o botão
                     child: Text(
                       'ENTRAR',
                       style: GoogleFonts.poppins(
