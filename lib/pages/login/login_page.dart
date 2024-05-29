@@ -43,7 +43,6 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
             child: SingleChildScrollView(
-              // Adicionado SingleChildScrollView
               child: Form(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -157,33 +156,51 @@ class _LoginPageState extends State<LoginPage> {
                             if (_usernameController.text.isNotEmpty &&
                                 _passwordController.text.isNotEmpty) {
                               final response = await http.post(
-                                  Uri.parse(
-                                      'http://192.168.0.36:3000/auth/login'),
-                                  headers: <String, String>{
-                                    'Content-Type':
-                                        'application/json; charset=UTF-8',
-                                  },
-                                  body: jsonEncode(jsonData));
+                                Uri.parse(
+                                    'http://192.168.0.36:3000/auth/login'),
+                                headers: <String, String>{
+                                  'Content-Type':
+                                      'application/json; charset=UTF-8',
+                                },
+                                body: jsonEncode(jsonData),
+                              );
 
                               if (response.statusCode == 200 ||
                                   response.statusCode == 201) {
                                 print("Usuário logado com sucesso! ");
                                 print(response.body);
-                                print(response.statusCode);
 
                                 final responseData = jsonDecode(response.body);
-                                final token = responseData['token'];
-                                final id = responseData['id'];
+                                print(responseData);
 
-                                AuthService.setUserId(id);
-                                AuthService.setUserToken(token);
+                                final data = responseData['data'];
+                                if (data != null && data is Map) {
+                                  final token = data['token'];
+                                  if (token != null && token is String) {
+                                    print('Token: $token');
 
-                                final prefs = await SharedPreferences.getInstance();
-                                await prefs.setString('authToken', token);
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => TokenPage()));
+                                    //AuthService.setUserId(id); // Se necessário
+                                    AuthService.setUserToken(
+                                        token); // Se necessário
+                                    print(AuthService.getUserToken());
+
+                                    final prefs =
+                                        await SharedPreferences.getInstance();
+                                    await prefs.setString('authToken', token);
+
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => TokenPage()),
+                                    );
+                                  } else {
+                                    print(
+                                        'Erro: Campo "token" não encontrado dentro de "data" ou é nulo');
+                                  }
+                                } else {
+                                  print(
+                                      'Erro: Campo "data" não encontrado ou é nulo');
+                                }
                               } else {
                                 print(
                                     "Falha ao logar o usuário: ${response.body}");
@@ -193,7 +210,6 @@ class _LoginPageState extends State<LoginPage> {
                           } catch (e) {
                             print("Falha ao fazer a requisição: $e");
                           }
-                          print(jsonData);
                         },
                       ),
                     ),
