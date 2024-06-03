@@ -70,6 +70,7 @@ flutter:
     - assets/noneUser.png
     - assets/hamburger.png
     - assets/productitem100x100.png
+    - assets/creditcard.png
     
 
   # To add assets to your application, add an assets section, like this:

@@ -93,7 +93,7 @@ class _LoginPageState extends State<LoginPage> {
                         Text(
                           "Senha:",
                           style: GoogleFonts.poppins(
-                              textStyle: const TextStyle(
+                            textStyle: const TextStyle(
                             color: Color(0xFF525252),
                             fontSize: 18,
                             fontWeight: FontWeight.bold,

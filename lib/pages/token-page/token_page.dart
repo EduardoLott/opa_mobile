@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:opamobile/pages/table/table_page.dart';
 import 'package:opamobile/pages/token-page/token_page_service.dart';
+import 'package:opamobile/services/table_service.dart';
 import 'package:opamobile/utils/opa_colors.dart';
 import 'package:shared_preferences/shared_preferences.dart'; // Import shared_preferences
 import 'package:http/http.dart' as http;
@@ -23,7 +24,7 @@ class _TokenPageState extends State<TokenPage> {
   Future<void> submitTableToken() async {
     final token = _tokenController.text;
     final tokenint = int.parse(token);
-    print(tokenint);
+    TableService.setTableId(tokenint);
     if (token.isNotEmpty) {
       var response = await TokenPageService.tokenToBack(tokenint);
       if (response.statusCode == 200 || response.statusCode == 201) {

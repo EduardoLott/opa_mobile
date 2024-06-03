@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:opamobile/services/auth_service.dart';
-import 'package:opamobile/services/user_service.dart';
 
 class TokenPageService {
   static Future<dynamic> tokenToBack(int token) async {

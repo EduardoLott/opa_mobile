@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:opamobile/pages/menu/menu_page.dart';
+import 'package:opamobile/pages/payment/payment_page.dart';
+import 'package:opamobile/services/table_service.dart';
 import 'package:opamobile/utils/opa_colors.dart';
 
 class TablePage extends StatefulWidget {
@@ -14,7 +16,24 @@ class TablePage extends StatefulWidget {
 
 class _TablePageState extends State<TablePage>{
 
- int _user_value = 100;
+  int _user_value = 100;
+
+  late var _customers_in_table=[];
+
+  @override
+  void initState(){
+    super.initState();
+    // getTableInfo();
+    // getCustomers();
+  }
+
+  Future<void> getTableInfo() async {
+    TableService.getInfo();
+  }
+
+  void getCustomers(){
+    _customers_in_table = TableService.getCustomers();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,65 +58,102 @@ class _TablePageState extends State<TablePage>{
           children: [
             SizedBox(
               width: MediaQuery.of(context).size.width,
-              height: 400,
+              height: 500,
               child: Container(
                 decoration: const BoxDecoration(
                   color: OpaColors.yellowLighter,
                     borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(100.0),
-                      bottomRight: Radius.circular(100.0),
+                      bottomLeft: Radius.circular(50.0),
+                      bottomRight: Radius.circular(50.0),
                     ),
                 ),
                 child: Center(
-                  child: Row(
-                    mainAxisAlignment:MainAxisAlignment.spaceEvenly,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Image.asset('noneUser.png'),
-                          Text(
-                            'R\$ $_user_value',
-                            style: GoogleFonts.poppins(
-                              textStyle: const TextStyle(
-                                color: Color.fromARGB(255, 1, 73, 3),
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold
+                      Container(
+                        width: 225,
+                        height: 225,
+                        child: Center(
+                          child: Column(
+                            children: [
+                              Image.asset(
+                                'noneUser.png',
+                                width: 130,
+                                height: 130,
                               ),
-                            )
-                          )
-                        ],
+                              Text(
+                                'R\$ $_user_value',
+                                style: GoogleFonts.poppins(
+                                  textStyle: const TextStyle(
+                                    color: Color.fromARGB(255, 1, 73, 3),
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold
+                                  ),
+                                )
+                              ),
+                            ],
+                          ),
+                          ),
                       ),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          SizedBox(
-                            height: 50,
-                            width: 50,
-                            child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: OpaColors.yellowOpa,
-                                padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5), // Padding
-                                shape: const CircleBorder(),
-                                elevation: 1, // Sombra
-                              ),
-                              onPressed: (){},
-                              child: Image.asset(
-                                'hamburger.png',
-                                width: 30,
-                                height: 30,
-                              )
+                      Container(
+                        height: 110,
+                        width: MediaQuery.of(context).size.width,
+                        child: Column(
+                          children: [
+                            Container(
+                              width: MediaQuery.of(context).size.width *0.95,
+                              height: 15,
+                              child:Text(
+                                'Com você:',
+                                style: GoogleFonts.poppins(
+                                  textStyle: const TextStyle(
+                                    color: OpaColors.graytext,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.bold
+                                  ),
+                                          )
+                              ), 
                             ),
-                          ),
-                          SizedBox(
-                            height: 125,
-                            width: 125,
-                            child: Image.asset('table.png')
-                          ),
-                        ],
+                            Container(
+                              height: 90,
+                              width: MediaQuery.of(context).size.width,
+                              child: 
+                              ListView(
+                                scrollDirection: Axis.horizontal,
+                                children: [
+                                  for(var customer in _customers_in_table)
+                                  Container(
+                                    width: 80,
+                                    height: 80,
+                                    child: Column(
+                                      children: [
+                                        Image.asset(
+                                          'noneUser.png',
+                                          height: 70,
+                                          width: 70,
+                                        ),
+                                        Text(
+                                          '$customer',
+                                          style: GoogleFonts.poppins(
+                                            textStyle: const TextStyle(
+                                              color: OpaColors.graytext,
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.bold
+                                            ),
+                                          )
+                                        )
+                                      ],
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ],
+                        )
                       )
                     ],
-                ),
+                  ),
                 ),
               )
             ),
@@ -152,7 +208,13 @@ class _TablePageState extends State<TablePage>{
                         fixedSize: Size(75, 75),
                         backgroundColor: OpaColors.yellowOpa
                       ),
-                      onPressed: (){},
+                      onPressed: (){
+                        Navigator.push(context, 
+                          MaterialPageRoute(
+                            builder: (context) => PaymentPage()
+                          ),
+                        );
+                      },
                       child: Image.asset(
                         'assets/orders.png',
                         height: 75,

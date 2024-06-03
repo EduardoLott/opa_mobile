@@ -35,11 +35,11 @@ class _MenuPageState extends State<MenuPage>{
       home: Scaffold(
         appBar: AppBar(
           leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
+            icon: const Icon(Icons.arrow_back),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
           backgroundColor: OpaColors.yellowOpa,
           automaticallyImplyLeading: true, // tirar o botão de voltar
           actions: [],
