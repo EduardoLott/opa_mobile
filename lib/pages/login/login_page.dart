@@ -7,6 +7,7 @@ import 'package:opamobile/pages/register/register_page.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:opamobile/pages/token-page/token_page.dart';
 import 'package:opamobile/services/auth_service.dart';
+import 'package:opamobile/services/restaurant/restaurant_service.dart';
 import 'package:opamobile/utils/opa_colors.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -179,9 +180,9 @@ class _LoginPageState extends State<LoginPage> {
                                   if (token != null && token is String) {
                                     print('Token: $token');
 
-                                    //AuthService.setUserId(id); // Se necessário
-                                    AuthService.setUserToken(
-                                        token); // Se necessário
+                                    AuthService.setUserId(data['userId']); 
+                                    AuthService.setUserToken(token); 
+                                    RestaurantService.setRestaurantId(data['restaurantId']);
                                     print(AuthService.getUserToken());
 
                                     final prefs =

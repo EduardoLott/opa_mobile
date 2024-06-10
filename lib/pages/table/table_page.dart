@@ -4,7 +4,9 @@ import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:opamobile/pages/menu/menu_page.dart';
 import 'package:opamobile/pages/payment/payment_page.dart';
-import 'package:opamobile/services/table_service.dart';
+import 'package:opamobile/services/auth_service.dart';
+import 'package:opamobile/services/table/dto/tabledto.dart';
+import 'package:opamobile/services/table/table_service.dart';
 import 'package:opamobile/utils/opa_colors.dart';
 
 class TablePage extends StatefulWidget {
@@ -16,23 +18,20 @@ class TablePage extends StatefulWidget {
 
 class _TablePageState extends State<TablePage>{
 
-  int _user_value = 100;
-
-  late var _customers_in_table=[];
+  late TableDTO _table;
+  late List<OrderDTO> _userOrderList;
 
   @override
   void initState(){
+    getTableInfo();
     super.initState();
-    // getTableInfo();
-    // getCustomers();
   }
 
   Future<void> getTableInfo() async {
-    TableService.getInfo();
-  }
-
-  void getCustomers(){
-    _customers_in_table = TableService.getCustomers();
+    var getTableFromService = TableService.getInfo();
+    if(getTableFromService is TableDTO){
+      _table = getTableFromService as TableDTO;
+    }
   }
 
   @override
@@ -82,16 +81,17 @@ class _TablePageState extends State<TablePage>{
                                 width: 130,
                                 height: 130,
                               ),
-                              Text(
-                                'R\$ $_user_value',
-                                style: GoogleFonts.poppins(
-                                  textStyle: const TextStyle(
-                                    color: Color.fromARGB(255, 1, 73, 3),
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold
-                                  ),
-                                )
-                              ),
+                              Text('Você'),
+                              // Text(
+                              //   'R\$ $_user_value',
+                              //   style: GoogleFonts.poppins(
+                              //     textStyle: const TextStyle(
+                              //       color: Color.fromARGB(255, 1, 73, 3),
+                              //       fontSize: 18,
+                              //       fontWeight: FontWeight.bold
+                              //     ),
+                              //   )
+                              // ),
                             ],
                           ),
                           ),
@@ -122,7 +122,7 @@ class _TablePageState extends State<TablePage>{
                               ListView(
                                 scrollDirection: Axis.horizontal,
                                 children: [
-                                  for(var customer in _customers_in_table)
+                                  for(var customer in _table.tableInfo.tableCustomers)
                                   Container(
                                     width: 80,
                                     height: 80,
@@ -134,7 +134,7 @@ class _TablePageState extends State<TablePage>{
                                           width: 70,
                                         ),
                                         Text(
-                                          '$customer',
+                                          '${customer.name}',
                                           style: GoogleFonts.poppins(
                                             textStyle: const TextStyle(
                                               color: OpaColors.graytext,

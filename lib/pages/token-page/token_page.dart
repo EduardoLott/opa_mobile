@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:opamobile/pages/table/table_page.dart';
 import 'package:opamobile/pages/token-page/token_page_service.dart';
-import 'package:opamobile/services/table_service.dart';
+import 'package:opamobile/services/table/table_service.dart';
 import 'package:opamobile/utils/opa_colors.dart';
 import 'package:shared_preferences/shared_preferences.dart'; // Import shared_preferences
 import 'package:http/http.dart' as http;
@@ -18,17 +18,15 @@ class TokenPage extends StatefulWidget {
 }
 
 class _TokenPageState extends State<TokenPage> {
+  
   final TextEditingController _tokenController = TextEditingController();
-  String? authToken;
 
   Future<void> submitTableToken() async {
     final token = _tokenController.text;
-    final tokenint = int.parse(token);
-    TableService.setTableId(tokenint);
+    TableService.setTableId(token);
     if (token.isNotEmpty) {
-      var response = await TokenPageService.tokenToBack(tokenint);
+      var response = await TokenPageService.tokenToBack(token);
       if (response.statusCode == 200 || response.statusCode == 201) {
-        print("Entrou na mesa!");
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => TablePage()),
@@ -145,7 +143,6 @@ class _TokenPageState extends State<TokenPage> {
                 const SizedBox(
                   width: 300,
                   height: 300,
-                  // isso aqui é gambiarra pura ta kkkkkkk
                 ),
               ],
             ),

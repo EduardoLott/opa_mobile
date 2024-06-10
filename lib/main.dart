@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:opamobile/pages/login/login_page.dart';
 import 'package:opamobile/pages/menu/menu_page.dart';
 import 'package:opamobile/pages/table/table_page.dart';
+import 'package:opamobile/pages/token-page/token_page.dart';
 import 'package:opamobile/utils/opa_colors.dart';
 
 void main() {

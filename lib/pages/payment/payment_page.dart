@@ -1,5 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:opamobile/services/orders/dto/paymentorderdto.dart';
+import 'package:opamobile/services/orders/order_service.dart';
 import 'package:opamobile/utils/opa_colors.dart';
 
 class PaymentPage extends StatefulWidget {
@@ -11,16 +14,38 @@ class PaymentPage extends StatefulWidget {
 
 class _PaymentPageState extends State<PaymentPage>{
   
-  late dynamic _orders=[1,2,3,4,5,6,7,8,9,10,11,12]; 
+  late List<PaymentOrderDTO> _orders; 
 
-  late double _order_value = 570.97;
+  late double _finalValue;
 
-  static var _paymentOptions = [
+  static final _paymentOptions = [
     'Cartão de Crédito',
     'Pix'
   ];
 
   var _selectedOption = _paymentOptions.first;
+  var _isChecked = false;
+
+
+  @override
+  void initState() {
+    getOrders();
+    setFinalValue();
+    super.initState();
+  }
+
+  getOrders(){
+    var ordersFromService = OrderService.getUserOrders();
+    if(ordersFromService is List<PaymentOrderDTO>){
+      _orders = ordersFromService as List<PaymentOrderDTO>;
+    }
+  }
+
+  setFinalValue(){
+    _orders.map(
+      (e) => _finalValue += e.dividedPrice
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -68,21 +93,22 @@ class _PaymentPageState extends State<PaymentPage>{
                 width: MediaQuery.of(context).size.width,
                 height: 400,
                 child: Container(
-                  color: Colors.amber,
                   child: SingleChildScrollView(
                     scrollDirection: Axis.vertical,
                     child: DataTable(
                       columns: const [
                         DataColumn(label: Text('Qt.')),
-                        // DataColumn(label: Text('Item')),
-                        // DataColumn(label: Text('Pessoas')),
-                        // DataColumn(label: Text('Total')),
-                        // DataColumn(label: Text('Indiv.')),
+                        DataColumn(label: Text('Item')),
+                        DataColumn(label: Text('Div.')),
+                        DataColumn(label: Text('Indiv.')),
                       ],
                       rows: [
                         for(var order in _orders)
                           DataRow(cells:[
-                            DataCell(Text('$order')),
+                            DataCell(Text('${order.qt}')),
+                            DataCell(Text('${order.name}')),
+                            DataCell(Text('${order.dividedPrice}')),
+                            DataCell(Text('${order.totalPrice}')),
                           ])
                       ],
                     ),
@@ -112,7 +138,7 @@ class _PaymentPageState extends State<PaymentPage>{
                                   ),
                                 ),
                                 Text(
-                                  'R\$$_order_value',
+                                  'R\$$_finalValue',
                                   style: GoogleFonts.poppins(
                                     textStyle: const TextStyle(
                                       color: Color(0xFF367335),
@@ -206,17 +232,58 @@ class _PaymentPageState extends State<PaymentPage>{
                         ),
                         SizedBox(
                           width: MediaQuery.of(context).size.width,
-                          height: 70,
+                          height: 35,
                           child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Container(
+                                alignment: Alignment.centerLeft,
                                 height: 70,
-                                width: MediaQuery.of(context).size.width*0.8,
-                                child: Text('CPF/CNPJ na nota'),
+                                width: MediaQuery.of(context).size.width*0.5,
+                                child: const Text('CPF/CNPJ na nota'),
                               ),
-                              Container(),
+                              Container(
+                                child: Checkbox(
+                                  value: _isChecked,
+                                  activeColor: OpaColors.brownOpa,
+                                  onChanged: (bool? value) { 
+                                    setState(() {
+                                    _isChecked = !_isChecked;
+                                    });
+                                   },
+                                ),
+                              ),
                             ],
                           ),
+                        ),
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width,
+                          height: 70,
+                          child: Center(
+                            child:Container(
+                              width: MediaQuery.of(context).size.width*0.8,
+                              alignment: Alignment.center,
+                              child: CupertinoButton(
+                                color: OpaColors.yellowOpa,
+                                onPressed: () { 
+                                  // Integração com método de pagamento
+                                },
+                                child: Center(
+                                  child: Text(
+                                    'PAGAR',
+                                    style: GoogleFonts.poppins(
+                                      textStyle: const TextStyle(
+                                        color: OpaColors.brownOpa,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                        letterSpacing: 2.0,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          )
                         )
                       ],
                     ),
