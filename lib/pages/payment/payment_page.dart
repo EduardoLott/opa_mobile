@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:opamobile/services/orders/dto/paymentorderdto.dart';
 import 'package:opamobile/services/orders/order_service.dart';
+import 'package:opamobile/services/table/dto/tabledto.dart';
 import 'package:opamobile/utils/opa_colors.dart';
 
 class PaymentPage extends StatefulWidget {
@@ -35,10 +36,10 @@ class _PaymentPageState extends State<PaymentPage>{
   }
 
   getOrders(){
-    var ordersFromService = OrderService.getUserOrders();
-    if(ordersFromService is List<PaymentOrderDTO>){
-      _orders = ordersFromService as List<PaymentOrderDTO>;
-    }
+    var ordersFromService = OrderService.getUserOrders() as List<PaymentOrderDTO>;
+    setState(() {
+      _orders = ordersFromService;
+    });
   }
 
   setFinalValue(){
