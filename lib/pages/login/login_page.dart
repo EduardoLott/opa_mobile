@@ -183,7 +183,6 @@ class _LoginPageState extends State<LoginPage> {
 
                                     AuthService.setUserId(data['userId']); 
                                     AuthService.setUserToken(token); 
-                                    RestaurantService.setRestaurantId(data['restaurantId']);
                                     print(AuthService.getUserToken());
 
                                     final prefs =
