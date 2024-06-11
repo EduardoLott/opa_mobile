@@ -26,7 +26,9 @@ class _PaymentPageState extends State<PaymentPage> {
   @override
   void initState() {
     super.initState();
+    _orders = [];
     getOrders();
+    _finalValue = 00.00;
   }
 
   Future<void> getOrders() async {
@@ -34,6 +36,7 @@ class _PaymentPageState extends State<PaymentPage> {
       var ordersFromService = await OrderService.getUserOrders();
       setState(() {
         _orders = ordersFromService as List<PaymentOrderDTO>;
+        print("SEXO12345678910 $_orders");
         setFinalValue();
       });
     } catch (e) {

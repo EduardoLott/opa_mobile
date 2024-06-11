@@ -1,17 +1,18 @@
-class PaymentOrderDTO{
+class PaymentOrderDTO {
   final String name;
   final int qt;
-  final double totalPrice;
-  final double dividedPrice;
+  final int totalPrice;
+  final int dividedPrice;
 
   factory PaymentOrderDTO.fromJson(Map<String, dynamic> json) {
-  return PaymentOrderDTO(
-    qt: json['qt'],
-    name: json['name'],
-    dividedPrice: json['dividedPrice'],
-    totalPrice: json['totalPrice']
-  );
-}
+    var sexo12 = PaymentOrderDTO(
+        qt: json['qt'],
+        name: json['name'],
+        dividedPrice: json['dividedPrice'],
+        totalPrice: json['totalPrice']);
+    print("REI do $sexo12");
+    return sexo12;
+  }
 
   PaymentOrderDTO({
     required this.name,

@@ -25,16 +25,17 @@ class OrderService {
         throw Exception("Requisição de orders falhou.");
       }
 
-      print(response.body);
-
       final List<dynamic> ordersFromBack = jsonDecode(response.body);
+
+      print("SEXOMILDOBARRAS $ordersFromBack");
 
       if (ordersFromBack == null) {
         return null;
       }
 
-      final List<PaymentOrderDTO> orderList = [];
-      ordersFromBack.map((e) => orderList.add(PaymentOrderDTO.fromJson(e)));
+      List<PaymentOrderDTO> orderList = [];
+      ordersFromBack.forEach((e) => orderList.add(PaymentOrderDTO.fromJson(e)));
+      print("SEXOMANEIRO ${ordersFromBack.first}");
       print(orderList);
 
       return orderList;
