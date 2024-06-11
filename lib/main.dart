@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: OpaColors.brownOpa),
         useMaterial3: true,
       ),
-      home: const TablePage(),
+      home: const LoginPage(),
     );
   }
 }

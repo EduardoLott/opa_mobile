@@ -1,13 +1,13 @@
 class AuthService{
 
   static late String _user_token;
-  static late String _user_id;
+  static late int _user_id;
 
-  static void setUserId(String id){
+  static void setUserId(int id){
     _user_id = id;
   }
 
-  static String getUserId(){
+  static int getUserId(){
     return _user_id;
   }
 
