@@ -21,7 +21,7 @@ class TableInfoDTO {
   final String token;
   final int id;
   final String openTime;
-  final List<Customer> tableCustomers;
+  final List<Customer> customers;
   final int status;
   final String reponsableWaiter;
 
@@ -29,7 +29,7 @@ class TableInfoDTO {
     required this.token,
     required this.id,
     required this.openTime,
-    required this.tableCustomers,
+    required this.customers,
     required this.status,
     required this.reponsableWaiter,
   });
@@ -39,7 +39,7 @@ class TableInfoDTO {
       token: json['token'],
       id: json['id'],
       openTime: json['openTime'],
-      tableCustomers: (json['tableCustomers'] as List<dynamic>?)
+      customers: (json['customers'] as List<dynamic>?)
               ?.map((customer) => Customer.fromJson(customer))
               .toList() ??
           [],
