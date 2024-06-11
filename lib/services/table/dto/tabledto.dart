@@ -1,10 +1,10 @@
 import 'dart:async';
 
 class TableDTO{
-  final TableInfoDTO tableInfo;
+  final TableInfoDTO table;
   final List<OrderDTO> orders;
 
-  TableDTO({ required this.tableInfo, required this. orders,});
+  TableDTO({ required this.table, required this. orders,});
 
 }
 

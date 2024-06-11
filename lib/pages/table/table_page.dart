@@ -122,7 +122,7 @@ class _TablePageState extends State<TablePage>{
                               ListView(
                                 scrollDirection: Axis.horizontal,
                                 children: [
-                                  for(var customer in _table.tableInfo.tableCustomers)
+                                  for(var customer in _table.table.tableCustomers)
                                   Container(
                                     width: 80,
                                     height: 80,
