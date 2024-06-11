@@ -15,8 +15,8 @@ class TablePage extends StatefulWidget {
 }
 
 class _TablePageState extends State<TablePage> {
-  static late TableDTO _table;
-  static late List<OrderDTO> _userOrderList;
+  TableDTO? _table; // Allow null values initially
+  List<OrderDTO> _userOrderList = []; // Initialize to an empty list
 
   @override
   void initState() {
@@ -25,10 +25,15 @@ class _TablePageState extends State<TablePage> {
   }
 
   Future<void> getTableInfo() async {
-    var serviceInfo = await TableService.getInfo() as TableDTO;
-    setState(() {
-      _table = serviceInfo;
-    });
+    try {
+      var serviceInfo = await TableService.getInfo();
+      setState(() {
+        _table = serviceInfo as TableDTO;
+      });
+    } catch (e) {
+      // Handle error appropriately here
+      print("Error fetching table info: $e");
+    }
   }
 
   @override
@@ -53,104 +58,104 @@ class _TablePageState extends State<TablePage> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               SizedBox(
-                  width: MediaQuery.of(context).size.width,
-                  height: 500,
-                  child: Container(
-                    decoration: const BoxDecoration(
-                      color: OpaColors.yellowLighter,
-                      borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(50.0),
-                        bottomRight: Radius.circular(50.0),
-                      ),
+                width: MediaQuery.of(context).size.width,
+                height: 500,
+                child: Container(
+                  decoration: const BoxDecoration(
+                    color: OpaColors.yellowLighter,
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(50.0),
+                      bottomRight: Radius.circular(50.0),
                     ),
-                    child: Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Container(
-                            width: 225,
-                            height: 225,
-                            child: Center(
-                              child: Column(
-                                children: [
-                                  Image.asset(
-                                    'assets/noneUser.png',
-                                    width: 130,
-                                    height: 130,
-                                  ),
-                                  Text('Você'),
-                                  // Text(
-                                  //   'R\$ $_user_value',
-                                  //   style: GoogleFonts.poppins(
-                                  //     textStyle: const TextStyle(
-                                  //       color: Color.fromARGB(255, 1, 73, 3),
-                                  //       fontSize: 18,
-                                  //       fontWeight: FontWeight.bold
-                                  //     ),
-                                  //   )
-                                  // ),
-                                ],
-                              ),
+                  ),
+                  child: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          width: 225,
+                          height: 225,
+                          child: Center(
+                            child: Column(
+                              children: [
+                                Image.asset(
+                                  'assets/noneUser.png',
+                                  width: 130,
+                                  height: 130,
+                                ),
+                                Text('Você'),
+                                // Text(
+                                //   'R\$ $_user_value',
+                                //   style: GoogleFonts.poppins(
+                                //     textStyle: const TextStyle(
+                                //       color: Color.fromARGB(255, 1, 73, 3),
+                                //       fontSize: 18,
+                                //       fontWeight: FontWeight.bold
+                                //     ),
+                                //   )
+                                // ),
+                              ],
                             ),
                           ),
-                          Container(
-                              height: 110,
-                              width: MediaQuery.of(context).size.width,
-                              child: Column(
-                                children: [
-                                  Container(
-                                    width: MediaQuery.of(context).size.width *
-                                        0.95,
-                                    height: 15,
-                                    child: Text('Com você:',
-                                        style: GoogleFonts.poppins(
-                                          textStyle: const TextStyle(
-                                              color: OpaColors.graytext,
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.bold),
-                                        )),
-                                  ),
-                                  Container(
-                                    height: 90,
-                                    width: MediaQuery.of(context).size.width,
-                                    child: ListView(
-                                      scrollDirection: Axis.horizontal,
-                                      children: [
-                                        for (var customer
-                                            in _table.table.tableCustomers)
-                                          Container(
-                                            width: 80,
-                                            height: 80,
-                                            child: Column(
-                                              children: [
-                                                Image.asset(
-                                                  'assets/noneUser.png',
-                                                  height: 70,
-                                                  width: 70,
-                                                ),
-                                                Text('${customer.name}',
-                                                    style: GoogleFonts.poppins(
-                                                      textStyle:
-                                                          const TextStyle(
-                                                              color: OpaColors
-                                                                  .graytext,
-                                                              fontSize: 12,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                    ))
-                                              ],
-                                            ),
-                                          )
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ))
-                        ],
-                      ),
+                        ),
+                        Container(
+                          height: 110,
+                          width: MediaQuery.of(context).size.width,
+                          child: Column(
+                            children: [
+                              Container(
+                                width: MediaQuery.of(context).size.width * 0.95,
+                                height: 15,
+                                child: Text('Participantes da mesa:',
+                                    style: GoogleFonts.poppins(
+                                      textStyle: const TextStyle(
+                                          color: OpaColors.graytext,
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.bold),
+                                    )),
+                              ),
+                              Container(
+                                height: 90,
+                                width: MediaQuery.of(context).size.width,
+                                child: ListView(
+                                  scrollDirection: Axis.horizontal,
+                                  children: [
+                                    if (_table != null)
+                                      for (var customer
+                                          in _table!.table.customers)
+                                        Container(
+                                          width: 80,
+                                          height: 80,
+                                          child: Column(
+                                            children: [
+                                              Image.asset(
+                                                'assets/noneUser.png',
+                                                height: 70,
+                                                width: 70,
+                                              ),
+                                              Text('${customer.name}',
+                                                  style: GoogleFonts.poppins(
+                                                    textStyle: const TextStyle(
+                                                        color:
+                                                            OpaColors.graytext,
+                                                        fontSize: 12,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ))
+                                            ],
+                                          ),
+                                        )
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
+                      ],
                     ),
-                  )),
+                  ),
+                ),
+              ),
               SizedBox(
                 width: MediaQuery.of(context).size.width,
                 height: 250,
@@ -158,30 +163,33 @@ class _TablePageState extends State<TablePage> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30.0),
-                            ),
-                            fixedSize: Size(75, 75),
-                            backgroundColor: OpaColors.yellowOpa),
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => MenuPage()),
-                          );
-                        },
-                        child: Image.asset(
-                          'assets/menu.png',
-                          height: 75,
-                          width: 75,
-                        )),
+                      style: ElevatedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30.0),
+                        ),
+                        fixedSize: Size(75, 75),
+                        backgroundColor: OpaColors.yellowOpa,
+                      ),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => MenuPage()),
+                        );
+                      },
+                      child: Image.asset(
+                        'assets/menu.png',
+                        height: 75,
+                        width: 75,
+                      ),
+                    ),
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30.0),
-                          ),
-                          fixedSize: Size(125, 125),
-                          backgroundColor: OpaColors.white),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30.0),
+                        ),
+                        fixedSize: Size(125, 125),
+                        backgroundColor: OpaColors.white,
+                      ),
                       onPressed: () {},
                       child: Image.asset(
                         'assets/Opa_with_fog.png',
@@ -192,11 +200,12 @@ class _TablePageState extends State<TablePage> {
                     ),
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30.0),
-                          ),
-                          fixedSize: Size(75, 75),
-                          backgroundColor: OpaColors.yellowOpa),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30.0),
+                        ),
+                        fixedSize: Size(75, 75),
+                        backgroundColor: OpaColors.yellowOpa,
+                      ),
                       onPressed: () {
                         Navigator.push(
                           context,
@@ -221,7 +230,7 @@ class _TablePageState extends State<TablePage> {
                     ),
               ),
             ],
-          ), // Evita que a tela seja redimensionada quando o teclado aparece
+          ),
         ),
       ),
     );
