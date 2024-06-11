@@ -26,6 +26,7 @@ class _TokenPageState extends State<TokenPage> {
     TableService.setTableId(token);
     if (token.isNotEmpty) {
       var response = await TokenPageService.tokenToBack(token);
+      print(response);
       if (response.statusCode == 200 || response.statusCode == 201) {
         Navigator.push(
           context,
