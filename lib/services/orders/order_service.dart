@@ -25,6 +25,8 @@ class OrderService {
         throw Exception("Requisição de orders falhou.");
       }
 
+      print(response.body);
+
       final List<dynamic> ordersFromBack = jsonDecode(response.body);
 
       if (ordersFromBack == null) {

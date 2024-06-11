@@ -98,7 +98,7 @@ class Customer {
 class MenuItem {
   final int id;
   final String name;
-  final double price;
+  final String price;
   final String description;
 
   MenuItem({
