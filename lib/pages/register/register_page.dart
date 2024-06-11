@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:opamobile/pages/login/login_page.dart';
 import 'package:opamobile/services/CepService.dart';
+import 'package:opamobile/services/configservice.dart';
 import 'package:opamobile/utils/opa_colors.dart';
 import 'package:opamobile/models/user_model.dart';
 import 'package:intl/intl.dart';
@@ -260,7 +261,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       //ws://127.0.0.1:36761/iTKt7zklkAk=/ws
                       try {
                         final response = await http.post(
-                          Uri.parse('http://192.168.0.36:3000/opa-person'),
+                          Uri.parse('${ConfigService.apiurl}/opa-person'),
                           headers: <String, String>{
                             'Content-Type': 'application/json; charset=UTF-8',
                           },

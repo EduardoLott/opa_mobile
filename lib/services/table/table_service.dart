@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 import 'package:opamobile/services/auth_service.dart';
+import 'package:opamobile/services/configservice.dart';
 import 'package:opamobile/services/table/dto/tabledto.dart';
 
 class TableService{
@@ -25,7 +26,7 @@ class TableService{
       
       final response = await http.get(
         Uri.parse(
-          'http://192.168.0.36:3000/table/$_table_id'
+          '${ConfigService.apiurl}/table/$_table_id'
         ),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',

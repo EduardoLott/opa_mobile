@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:opamobile/services/auth_service.dart';
+import 'package:opamobile/services/configservice.dart';
 import 'package:opamobile/services/orders/dto/paymentorderdto.dart';
 import 'package:opamobile/services/restaurant/restaurant_service.dart';
 import 'package:http/http.dart' as http;
@@ -15,7 +16,7 @@ class OrderService{
       
       final response = await http.get(
         Uri.parse(
-          'http://192.168.0.36:3000/order/$restaurantId/person$userId'
+          '${ConfigService.apiurl}/order/$restaurantId/person$userId'
         ),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',

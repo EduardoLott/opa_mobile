@@ -7,6 +7,7 @@ import 'package:opamobile/pages/register/register_page.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:opamobile/pages/token-page/token_page.dart';
 import 'package:opamobile/services/auth_service.dart';
+import 'package:opamobile/services/configservice.dart';
 import 'package:opamobile/services/restaurant/restaurant_service.dart';
 import 'package:opamobile/utils/opa_colors.dart';
 import 'package:http/http.dart' as http;
@@ -158,7 +159,7 @@ class _LoginPageState extends State<LoginPage> {
                                 _passwordController.text.isNotEmpty) {
                               final response = await http.post(
                                 Uri.parse(
-                                    'http://192.168.0.36:3000/auth/login'),
+                                    '${ConfigService.apiurl}/auth/login'),
                                 headers: <String, String>{
                                   'Content-Type':
                                       'application/json; charset=UTF-8',
