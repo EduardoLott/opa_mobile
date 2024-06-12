@@ -1,17 +1,20 @@
+import 'package:intl/intl.dart'; // Importe o pacote intl
+
 class PaymentOrderDTO {
   final String name;
-  final int qt;
-  final int totalPrice;
-  final int dividedPrice;
+  final num qt;
+  final num totalPrice;
+  final num dividedPrice;
 
   factory PaymentOrderDTO.fromJson(Map<String, dynamic> json) {
-    var sexo12 = PaymentOrderDTO(
-        qt: json['qt'],
-        name: json['name'],
-        dividedPrice: json['dividedPrice'],
-        totalPrice: json['totalPrice']);
-    print("REI do $sexo12");
-    return sexo12;
+    var order = PaymentOrderDTO(
+      qt: json['qt'],
+      name: json['name'],
+      dividedPrice: json['dividedPrice'],
+      totalPrice: json['totalPrice'],
+    );
+    print("REI do $order");
+    return order;
   }
 
   PaymentOrderDTO({
@@ -20,4 +23,14 @@ class PaymentOrderDTO {
     required this.totalPrice,
     required this.dividedPrice,
   });
+
+  String formattedTotalPrice() {
+    var formatter = NumberFormat('#,##0.00', 'pt_BR');
+    return formatter.format(totalPrice);
+  }
+
+  String formattedDividedPrice() {
+    var formatter = NumberFormat('#,##0.00', 'pt_BR');
+    return formatter.format(dividedPrice);
+  }
 }
