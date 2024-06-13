@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:opamobile/services/orders/dto/paymentorderdto.dart';
 import 'package:opamobile/services/orders/order_service.dart';
 import 'package:opamobile/utils/opa_colors.dart';
+import 'package:collection/collection.dart';
 
 class PaymentPage extends StatefulWidget {
   const PaymentPage({Key? key}) : super(key: key);
@@ -90,27 +91,40 @@ class _PaymentPageState extends State<PaymentPage> {
                 ),
                 const SizedBox(height: 20),
                 SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.9,
+                  width: MediaQuery.of(context).size.width * 1.0,
                   child: DataTable(
                     columns: const [
                       DataColumn(label: Text('Qt.')),
                       DataColumn(label: Text('Item')),
-                      DataColumn(label: Text('Individual')),
                       DataColumn(label: Text('Total')),
+                      DataColumn(label: Text('Individual')),
                     ],
                     rows: _orders.isNotEmpty
-                        ? [
-                            // Verifica se _orders não está vazio
-                            DataRow(cells: [
-                              DataCell(Text('${_orders.first.qt}')),
-                              DataCell(Text(_orders.first.name)),
-                              DataCell(
-                                  Text(_orders.first.formattedDividedPrice())),
-                              DataCell(
-                                  Text(_orders.first.formattedTotalPrice())),
-                            ]),
-                          ]
-                        : [], // Se _orders estiver vazio, retorna uma lista vazia de DataRow
+                        ? groupBy(
+                                _orders,
+                                (order) =>
+                                    order.name) // Agrupar por nome do produto
+                            .entries // Obter entradas do mapa agrupado
+                            .map((group) => DataRow(
+                                  // Criar DataRow para cada grupo
+                                  cells: [
+                                    DataCell(Text(
+                                        '${group.value.length}')), // Qt. total do grupo
+                                    DataCell(
+                                        Text(group.key)), // Nome do produto
+                                    DataCell(Text(group.value[0]
+                                        .formattedDividedPrice())), // Preço individual
+                                    DataCell(Text(// Total do grupo
+                                        NumberFormat('#,##0.00', 'pt_BR')
+                                            .format(group.value.fold(
+                                                0.0,
+                                                (sum, order) =>
+                                                    sum +
+                                                    order.dividedPrice)))),
+                                  ],
+                                ))
+                            .toList()
+                        : [],
                   ),
                 ),
                 const SizedBox(height: 20),
