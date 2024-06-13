@@ -1,10 +1,10 @@
 import 'package:intl/intl.dart'; // Importe o pacote intl
 
 class PaymentOrderDTO {
-  final String name;
-  final num qt;
-  final num totalPrice;
-  final num dividedPrice;
+  String name;
+  num qt;
+  num totalPrice;
+  num dividedPrice;
 
   factory PaymentOrderDTO.fromJson(Map<String, dynamic> json) {
     var order = PaymentOrderDTO(

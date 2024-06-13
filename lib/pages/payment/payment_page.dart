@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:opamobile/services/orders/dto/paymentorderdto.dart';
 import 'package:opamobile/services/orders/order_service.dart';
 import 'package:opamobile/utils/opa_colors.dart';
-import 'package:intl/intl.dart'; // Importe o pacote intl
 
 class PaymentPage extends StatefulWidget {
   const PaymentPage({Key? key}) : super(key: key);
@@ -32,7 +32,7 @@ class _PaymentPageState extends State<PaymentPage> {
     try {
       var ordersFromService = await OrderService.getUserOrders();
       setState(() {
-        _orders = ordersFromService as List<PaymentOrderDTO>;
+        _orders = ordersFromService ?? [];
         setFinalValue();
       });
     } catch (e) {
@@ -47,9 +47,7 @@ class _PaymentPageState extends State<PaymentPage> {
 
   @override
   Widget build(BuildContext context) {
-    // Crie um formato para duas casas decimais
     var formatter = NumberFormat('#,##0.00', 'pt_BR');
-    // Formate o valor final
     String formattedFinalValue = formatter.format(_finalValue);
 
     return MaterialApp(
@@ -97,17 +95,22 @@ class _PaymentPageState extends State<PaymentPage> {
                     columns: const [
                       DataColumn(label: Text('Qt.')),
                       DataColumn(label: Text('Item')),
-                      DataColumn(label: Text('Div.')),
-                      DataColumn(label: Text('Indiv.')),
+                      DataColumn(label: Text('Individual')),
+                      DataColumn(label: Text('Total')),
                     ],
-                    rows: _orders.map((order) {
-                      return DataRow(cells: [
-                        DataCell(Text('${order.qt}')),
-                        DataCell(Text(order.name)),
-                        DataCell(Text('${order.dividedPrice}')),
-                        DataCell(Text('${order.totalPrice}')),
-                      ]);
-                    }).toList(),
+                    rows: _orders.isNotEmpty
+                        ? [
+                            // Verifica se _orders não está vazio
+                            DataRow(cells: [
+                              DataCell(Text('${_orders.first.qt}')),
+                              DataCell(Text(_orders.first.name)),
+                              DataCell(
+                                  Text(_orders.first.formattedDividedPrice())),
+                              DataCell(
+                                  Text(_orders.first.formattedTotalPrice())),
+                            ]),
+                          ]
+                        : [], // Se _orders estiver vazio, retorna uma lista vazia de DataRow
                   ),
                 ),
                 const SizedBox(height: 20),
