@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:opamobile/pages/login/login_page.dart';
 import 'package:opamobile/services/CepService.dart';
+import 'package:opamobile/services/configservice.dart';
 import 'package:opamobile/utils/opa_colors.dart';
 import 'package:opamobile/models/user_model.dart';
 import 'package:intl/intl.dart';
@@ -91,7 +92,7 @@ class _RegisterPageState extends State<RegisterPage> {
           child: Image.asset('assets/OPA_logo.png'),
         ),
         elevation: 0,
-        backgroundColor: OpaColors.yellowOpa, // Alteração para a cor amarela
+        backgroundColor: OpaColors.yellowOpa,
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.only(
@@ -260,7 +261,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       //ws://127.0.0.1:36761/iTKt7zklkAk=/ws
                       try {
                         final response = await http.post(
-                          Uri.parse('http://192.168.0.36:3000/opa-person'),
+                          Uri.parse('${ConfigService.apiurl}/opa-person'),
                           headers: <String, String>{
                             'Content-Type': 'application/json; charset=UTF-8',
                           },
@@ -277,12 +278,10 @@ class _RegisterPageState extends State<RegisterPage> {
                         } else {
                           print(
                               "Falha ao cadastrar o usuário: ${response.body}");
-                          print(response.statusCode);
                         }
                       } catch (e) {
                         print("Erro ao fazer requisição: $e");
                       }
-                      print(jsonData);
                     },
                   ),
                 ),
@@ -388,9 +387,7 @@ class _RegisterPageState extends State<RegisterPage> {
               borderRadius: BorderRadius.circular(6),
             ),
             focusedBorder: OutlineInputBorder(
-              borderSide: const BorderSide(
-                  color: Colors.yellow,
-                  width: 2.0), // Defina a cor amarela aqui
+              borderSide: const BorderSide(color: Colors.yellow, width: 2.0),
               borderRadius: BorderRadius.circular(6),
             ),
             filled: true,
@@ -422,9 +419,8 @@ class _RegisterPageState extends State<RegisterPage> {
             child: TextFormField(
               controller: birthDateController,
               style: GoogleFonts.poppins(
-                // Definindo o estilo do texto
                 textStyle: const TextStyle(
-                  color: Color(0xFF525252), // Cor do texto após a escolha
+                  color: Color(0xFF525252),
                   fontSize: 16,
                   fontWeight: FontWeight.w300,
                 ),
@@ -488,8 +484,7 @@ class _RegisterPageState extends State<RegisterPage> {
           },
           decoration: InputDecoration(
             contentPadding: const EdgeInsets.all(15),
-            hintText:
-                'Selecione o gênero', // Adicionando um hintText para orientação do usuário
+            hintText: 'Selecione o gênero',
             hintStyle: GoogleFonts.poppins(
               textStyle: const TextStyle(
                 color: Color(0xFF818181),
@@ -503,9 +498,7 @@ class _RegisterPageState extends State<RegisterPage> {
               borderRadius: BorderRadius.circular(6),
             ),
             focusedBorder: OutlineInputBorder(
-              borderSide: const BorderSide(
-                  color: Colors.yellow,
-                  width: 2.0), // Defina a cor amarela aqui
+              borderSide: const BorderSide(color: Colors.yellow, width: 2.0),
               borderRadius: BorderRadius.circular(6),
             ),
             filled: true,

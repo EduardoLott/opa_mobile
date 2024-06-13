@@ -1,16 +1,40 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:opamobile/pages/table/table_page.dart';
+import 'package:opamobile/pages/token-page/token_page_service.dart';
+import 'package:opamobile/services/table/table_service.dart';
 import 'package:opamobile/utils/opa_colors.dart';
 
 class TokenPage extends StatefulWidget {
-  const TokenPage({Key? key}) : super(key: key);
+  const TokenPage({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _TokenPageState createState() => _TokenPageState();
 }
 
 class _TokenPageState extends State<TokenPage> {
+  final TextEditingController _tokenController = TextEditingController();
+
+  Future<void> submitTableToken() async {
+    final token = _tokenController.text;
+    TableService.setTableId(token);
+    if (token.isNotEmpty) {
+      var response = await TokenPageService.tokenToBack(token);
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => TablePage()),
+        );
+      } else {
+        print('Falha ao enviar o token da mesa: ${response.body}');
+      }
+    } else {
+      print('Token ou authToken não preenchido!');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -18,7 +42,7 @@ class _TokenPageState extends State<TokenPage> {
       home: Scaffold(
         appBar: AppBar(
           backgroundColor: OpaColors.yellowOpa,
-          automaticallyImplyLeading: false, // tirar o botão de voltar
+          automaticallyImplyLeading: false,
           actions: [],
           title: Center(
             child: SizedBox(
@@ -27,8 +51,7 @@ class _TokenPageState extends State<TokenPage> {
             ),
           ),
         ),
-        resizeToAvoidBottomInset:
-            false, // Evita que a tela seja redimensionada quando o teclado aparece
+        resizeToAvoidBottomInset: false,
         body: SingleChildScrollView(
           child: SizedBox(
             width: MediaQuery.of(context).size.width,
@@ -66,6 +89,7 @@ class _TokenPageState extends State<TokenPage> {
                   width: 300,
                   height: 50,
                   child: CupertinoTextField(
+                    controller: _tokenController,
                     padding: const EdgeInsets.all(15),
                     placeholder: "ME-123456",
                     textAlign: TextAlign.center,
@@ -94,7 +118,7 @@ class _TokenPageState extends State<TokenPage> {
                   height: 60,
                   child: CupertinoButton(
                     color: OpaColors.yellowOpa,
-                    onPressed: () {},
+                    onPressed: submitTableToken,
                     child: Text(
                       'ENTRAR',
                       style: GoogleFonts.poppins(
@@ -111,7 +135,6 @@ class _TokenPageState extends State<TokenPage> {
                 const SizedBox(
                   width: 300,
                   height: 300,
-                  // isso aqui é gambiarra pura ta kkkkkkk
                 ),
               ],
             ),

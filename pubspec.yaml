@@ -38,6 +38,7 @@ dependencies:
   google_fonts: ^6.2.1
   http: ^1.2.1
   intl: ^0.19.0
+  shared_preferences: ^2.0.6
 
 dev_dependencies:
   flutter_test:
@@ -63,6 +64,13 @@ flutter:
   assets:
     - assets/OPA_logo.png
     - assets/mesa.png
+    - assets/menu.png
+    - assets/orders.png
+    - assets/Opa_with_fog.png
+    - assets/noneUser.png
+    - assets/hamburger.png
+    - assets/productitem100x100.png
+    - assets/creditcard.png
     
 
   # To add assets to your application, add an assets section, like this:

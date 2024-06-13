@@ -6,8 +6,11 @@ import 'package:opamobile/models/userlogin_model.dart';
 import 'package:opamobile/pages/register/register_page.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:opamobile/pages/token-page/token_page.dart';
+import 'package:opamobile/services/auth_service.dart';
+import 'package:opamobile/services/configservice.dart';
 import 'package:opamobile/utils/opa_colors.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -41,7 +44,6 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
             child: SingleChildScrollView(
-              // Adicionado SingleChildScrollView
               child: Form(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -155,22 +157,44 @@ class _LoginPageState extends State<LoginPage> {
                             if (_usernameController.text.isNotEmpty &&
                                 _passwordController.text.isNotEmpty) {
                               final response = await http.post(
-                                  Uri.parse(
-                                      'http://192.168.0.36:3000/auth/login'),
-                                  headers: <String, String>{
-                                    'Content-Type':
-                                        'application/json; charset=UTF-8',
-                                  },
-                                  body: jsonEncode(jsonData));
+                                Uri.parse('${ConfigService.apiurl}/auth/login'),
+                                headers: <String, String>{
+                                  'Content-Type':
+                                      'application/json; charset=UTF-8',
+                                },
+                                body: jsonEncode(jsonData),
+                              );
 
                               if (response.statusCode == 200 ||
                                   response.statusCode == 201) {
                                 print("Usuário logado com sucesso! ");
-                                print(response.statusCode);
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => TokenPage()));
+
+                                final responseData = jsonDecode(response.body);
+
+                                final data = responseData['data'];
+                                if (data != null && data is Map) {
+                                  final token = data['token'];
+                                  if (token != null && token is String) {
+                                    AuthService.setUserId(data['userId']);
+                                    AuthService.setUserToken(token);
+
+                                    final prefs =
+                                        await SharedPreferences.getInstance();
+                                    await prefs.setString('authToken', token);
+
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => TokenPage()),
+                                    );
+                                  } else {
+                                    print(
+                                        'Erro: Campo "token" não encontrado dentro de "data" ou é nulo');
+                                  }
+                                } else {
+                                  print(
+                                      'Erro: Campo "data" não encontrado ou é nulo');
+                                }
                               } else {
                                 print(
                                     "Falha ao logar o usuário: ${response.body}");
@@ -180,7 +204,6 @@ class _LoginPageState extends State<LoginPage> {
                           } catch (e) {
                             print("Falha ao fazer a requisição: $e");
                           }
-                          print(jsonData);
                         },
                       ),
                     ),
