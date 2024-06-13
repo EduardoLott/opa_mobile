@@ -90,14 +90,19 @@ class _PaymentPageState extends State<PaymentPage> {
                   ),
                 ),
                 const SizedBox(height: 20),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 1.0,
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
                   child: DataTable(
+                    columnSpacing: 30.0,
                     columns: const [
                       DataColumn(label: Text('Qt.')),
                       DataColumn(label: Text('Item')),
-                      DataColumn(label: Text('Total')),
-                      DataColumn(label: Text('Individual')),
+                      DataColumn(
+                        label: Text(
+                          'Val. Un.',
+                        ),
+                      ),
+                      DataColumn(label: Text('Val. Total')),
                     ],
                     rows: _orders.isNotEmpty
                         ? groupBy(
@@ -114,7 +119,8 @@ class _PaymentPageState extends State<PaymentPage> {
                                         Text(group.key)), // Nome do produto
                                     DataCell(Text(group.value[0]
                                         .formattedDividedPrice())), // Preço individual
-                                    DataCell(Text(// Total do grupo
+                                    DataCell(Text(
+                                        // Total do grupo
                                         NumberFormat('#,##0.00', 'pt_BR')
                                             .format(group.value.fold(
                                                 0.0,
