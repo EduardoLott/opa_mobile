@@ -5,27 +5,25 @@ import 'package:opamobile/pages/menu/menu_interface.dart';
 import 'package:opamobile/services/auth_service.dart';
 import 'package:opamobile/services/configservice.dart';
 
-class MenuService{
-
-    static Future<List<Menu>?> getMenu() async {
+class MenuService {
+  static Future<List<Menu>?> getMenu() async {
     try {
       final userToken = AuthService.getUserToken();
       final response = await http.get(
-        Uri.parse(
-            '${ConfigService.apiurl}l/product/'),
-        headers: <String, String>{
-          'Content-Type':'application/json; charset=UTF-8',
-          'Authorization': 'Bearer $userToken', 
-        }
-      );
+          Uri.parse('${ConfigService.apiurl}/product/'),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+            'Authorization': 'Bearer $userToken',
+          });
 
-      if(response.statusCode != 200){
+      if (response.statusCode != 200) {
         return null;
       }
 
       final List<Menu> menuFromBack = jsonDecode(response.body);
+      print("MENUFROMBACK $menuFromBack");
 
-      if(menuFromBack == null){
+      if (menuFromBack == null) {
         return null;
       }
 
@@ -34,8 +32,7 @@ class MenuService{
       // menuFromBack.forEach((e) => menuList.add(Menu.fromJson(e)));
 
       return menuFromBack;
-    }
-    catch(e){
+    } catch (e) {
       print("$e");
     }
     return null;
