@@ -27,6 +27,8 @@ class OrderService {
 
       final List<dynamic> ordersFromBack = jsonDecode(response.body);
 
+      print(ordersFromBack);
+
       // ignore: unnecessary_null_comparison
       if (ordersFromBack == null) {
         return null;
