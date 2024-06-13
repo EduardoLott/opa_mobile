@@ -9,23 +9,22 @@ import 'package:opamobile/services/table/table_service.dart';
 import 'package:opamobile/utils/opa_colors.dart';
 
 class TablePage extends StatefulWidget {
-  const TablePage({Key? key}) : super(key: key);
+  const TablePage({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _TablePageState createState() => _TablePageState();
 }
 
 class _TablePageState extends State<TablePage> {
-  TableDTO? _table; // Allow null values initially
-  List<OrderDTO> _userOrderList = []; // Initialize to an empty list
+  TableDTO? _table;
 
-  late int _loggedInUserId; // Replace with actual logged-in user ID
-  String _loggedInUserName = ''; // To store logged-in user's name
+  late int _loggedInUserId;
+  String _loggedInUserName = '';
 
   @override
   void initState() {
     super.initState();
-    // Simulating the logged-in user ID for testing purposes
     _loggedInUserId = AuthService.getUserId();
     getTableInfo();
   }
@@ -50,7 +49,7 @@ class _TablePageState extends State<TablePage> {
         }
       }
     }
-    return 'Nome de Usuário'; // Return a default name if not found
+    return 'Nome de Usuário';
   }
 
   @override
@@ -60,7 +59,7 @@ class _TablePageState extends State<TablePage> {
       home: Scaffold(
         appBar: AppBar(
           backgroundColor: OpaColors.yellowOpa,
-          automaticallyImplyLeading: false, // remove the back button
+          automaticallyImplyLeading: false,
           actions: [],
           title: Center(
             child: SizedBox(

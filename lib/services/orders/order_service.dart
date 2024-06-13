@@ -27,11 +27,11 @@ class OrderService {
 
       final List<dynamic> ordersFromBack = jsonDecode(response.body);
 
-
+      // ignore: unnecessary_null_comparison
       if (ordersFromBack == null) {
         return null;
       }
-      
+
       List<PaymentOrderDTO> orderList = [];
       ordersFromBack.forEach((e) => orderList.add(PaymentOrderDTO.fromJson(e)));
 

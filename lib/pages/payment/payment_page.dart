@@ -43,7 +43,6 @@ class _PaymentPageState extends State<PaymentPage> {
 
   void setFinalValue() {
     _finalValue = _orders.fold(0.0, (sum, order) => sum + order.dividedPrice);
-    print("MILGRAU $_finalValue");
   }
 
   @override
@@ -105,13 +104,9 @@ class _PaymentPageState extends State<PaymentPage> {
                       DataColumn(label: Text('Val. Total')),
                     ],
                     rows: _orders.isNotEmpty
-                        ? groupBy(
-                                _orders,
-                                (order) =>
-                                    order.name) // Agrupar por nome do produto
-                            .entries // Obter entradas do mapa agrupado
+                        ? groupBy(_orders, (order) => order.name)
+                            .entries
                             .map((group) => DataRow(
-                                  // Criar DataRow para cada grupo
                                   cells: [
                                     DataCell(Text(
                                         '${group.value.length}')), // Qt. total do grupo
@@ -145,7 +140,7 @@ class _PaymentPageState extends State<PaymentPage> {
                   ),
                 ),
                 Text(
-                  'R\$$formattedFinalValue', // Use o valor final formatado
+                  'R\$$formattedFinalValue',
                   style: GoogleFonts.poppins(
                     textStyle: const TextStyle(
                       color: Color(0xFF367335),
@@ -230,9 +225,7 @@ class _PaymentPageState extends State<PaymentPage> {
                 const SizedBox(height: 20),
                 CupertinoButton(
                   color: OpaColors.yellowOpa,
-                  onPressed: () {
-                    // Integração com método de pagamento
-                  },
+                  onPressed: () {},
                   child: Text(
                     'PAGAR',
                     style: GoogleFonts.poppins(

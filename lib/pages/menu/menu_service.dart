@@ -16,32 +16,23 @@ class MenuService {
             'Authorization': 'Bearer $userToken',
           });
 
-      print(response.body);
-
-      print(response.statusCode);
-
       if (response.statusCode != 200) {
         return null;
       }
 
       final List<dynamic> menuFromBack = jsonDecode(response.body);
-      print("MENUFROMBACK $menuFromBack");
 
+      // ignore: unnecessary_null_comparison
       if (menuFromBack == null) {
         return null;
       }
 
-      print(menuFromBack);
-
-      //caso precise iterar, ta aqui o código, só mudar o retorno.
       List<Menu> menuList = [];
       menuFromBack.forEach((e) => menuList.add(Menu.fromJson(e)));
 
-      print("AI AI: ${menuList.first}");
-
       return menuList;
     } catch (e) {
-      print("Deu erro patrão: $e");
+      print("$e");
       return null;
     }
   }

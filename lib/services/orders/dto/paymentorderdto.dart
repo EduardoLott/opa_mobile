@@ -13,7 +13,6 @@ class PaymentOrderDTO {
       dividedPrice: json['dividedPrice'],
       totalPrice: json['totalPrice'],
     );
-    print("REI do $order");
     return order;
   }
 

@@ -17,7 +17,6 @@ class _MenuPageState extends State<MenuPage> {
 
   @override
   void initState() {
-    // rascunho de requisicao assim que entrar na rota e com o async no nome da funcao
     getMenu();
     super.initState();
   }

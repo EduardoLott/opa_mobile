@@ -1,5 +1,3 @@
-import 'dart:async';
-
 class TableDTO {
   final TableInfoDTO table;
   final List<OrderDTO> orders;

@@ -8,7 +8,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:opamobile/pages/token-page/token_page.dart';
 import 'package:opamobile/services/auth_service.dart';
 import 'package:opamobile/services/configservice.dart';
-import 'package:opamobile/services/restaurant/restaurant_service.dart';
 import 'package:opamobile/utils/opa_colors.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -95,7 +94,7 @@ class _LoginPageState extends State<LoginPage> {
                         Text(
                           "Senha:",
                           style: GoogleFonts.poppins(
-                            textStyle: const TextStyle(
+                              textStyle: const TextStyle(
                             color: Color(0xFF525252),
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
@@ -158,8 +157,7 @@ class _LoginPageState extends State<LoginPage> {
                             if (_usernameController.text.isNotEmpty &&
                                 _passwordController.text.isNotEmpty) {
                               final response = await http.post(
-                                Uri.parse(
-                                    '${ConfigService.apiurl}/auth/login'),
+                                Uri.parse('${ConfigService.apiurl}/auth/login'),
                                 headers: <String, String>{
                                   'Content-Type':
                                       'application/json; charset=UTF-8',
@@ -170,20 +168,15 @@ class _LoginPageState extends State<LoginPage> {
                               if (response.statusCode == 200 ||
                                   response.statusCode == 201) {
                                 print("Usuário logado com sucesso! ");
-                                print(response.body);
 
                                 final responseData = jsonDecode(response.body);
-                                print(responseData);
 
                                 final data = responseData['data'];
                                 if (data != null && data is Map) {
                                   final token = data['token'];
                                   if (token != null && token is String) {
-                                    print('Token: $token');
-
-                                    AuthService.setUserId(data['userId']); 
-                                    AuthService.setUserToken(token); 
-                                    print(AuthService.getUserToken());
+                                    AuthService.setUserId(data['userId']);
+                                    AuthService.setUserToken(token);
 
                                     final prefs =
                                         await SharedPreferences.getInstance();

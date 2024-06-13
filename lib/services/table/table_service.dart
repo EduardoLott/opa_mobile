@@ -20,6 +20,7 @@ class TableService {
   static Future<TableDTO?> getInfo() async {
     try {
       final userToken = AuthService.getUserToken();
+      // ignore: unused_local_variable
       final userId = AuthService.getUserId();
 
       final response = await http.get(
@@ -35,8 +36,8 @@ class TableService {
       }
 
       final Map<String, dynamic> tableInfoFromBack = jsonDecode(response.body);
-      print(tableInfoFromBack);
 
+      // ignore: unnecessary_null_comparison
       if (tableInfoFromBack == null) {
         return null;
       }
