@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class MenuCardItem extends StatelessWidget {
   final String name;
-  final double price;
+  final String price;
   final String description;
 
   const MenuCardItem({
@@ -47,7 +47,7 @@ class MenuCardItem extends StatelessWidget {
                       ),
                       const SizedBox(width: 8.0),
                       Text(
-                        'R\$${price.toStringAsFixed(2)}',
+                        'R\$${price}',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 18.0,

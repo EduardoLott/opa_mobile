@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:opamobile/pages/menu/menu_page.dart';
 import 'package:opamobile/pages/payment/payment_page.dart';
+import 'package:opamobile/services/auth_service.dart';
 import 'package:opamobile/services/table/dto/tabledto.dart';
 import 'package:opamobile/services/table/table_service.dart';
 import 'package:opamobile/utils/opa_colors.dart';
@@ -18,9 +19,14 @@ class _TablePageState extends State<TablePage> {
   TableDTO? _table; // Allow null values initially
   List<OrderDTO> _userOrderList = []; // Initialize to an empty list
 
+  late int _loggedInUserId; // Replace with actual logged-in user ID
+  String _loggedInUserName = ''; // To store logged-in user's name
+
   @override
   void initState() {
     super.initState();
+    // Simulating the logged-in user ID for testing purposes
+    _loggedInUserId = AuthService.getUserId();
     getTableInfo();
   }
 
@@ -29,11 +35,22 @@ class _TablePageState extends State<TablePage> {
       var serviceInfo = await TableService.getInfo();
       setState(() {
         _table = serviceInfo as TableDTO;
+        _loggedInUserName = _getLoggedInUserName();
       });
     } catch (e) {
-      // Handle error appropriately here
       print("Error fetching table info: $e");
     }
+  }
+
+  String _getLoggedInUserName() {
+    if (_table != null && _table!.table.customers.isNotEmpty) {
+      for (var customer in _table!.table.customers) {
+        if (customer.id == _loggedInUserId) {
+          return customer.name;
+        }
+      }
+    }
+    return 'Nome de Usuário'; // Return a default name if not found
   }
 
   @override
@@ -83,17 +100,16 @@ class _TablePageState extends State<TablePage> {
                                   width: 130,
                                   height: 130,
                                 ),
-                                Text('Você'),
-                                // Text(
-                                //   'R\$ $_user_value',
-                                //   style: GoogleFonts.poppins(
-                                //     textStyle: const TextStyle(
-                                //       color: Color.fromARGB(255, 1, 73, 3),
-                                //       fontSize: 18,
-                                //       fontWeight: FontWeight.bold
-                                //     ),
-                                //   )
-                                // ),
+                                Text(
+                                  _loggedInUserName,
+                                  style: GoogleFonts.poppins(
+                                    textStyle: const TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
                               ],
                             ),
                           ),
@@ -106,13 +122,16 @@ class _TablePageState extends State<TablePage> {
                               Container(
                                 width: MediaQuery.of(context).size.width * 0.95,
                                 height: 15,
-                                child: Text('Participantes da mesa:',
-                                    style: GoogleFonts.poppins(
-                                      textStyle: const TextStyle(
-                                          color: OpaColors.graytext,
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.bold),
-                                    )),
+                                child: Text(
+                                  'Participantes da mesa:',
+                                  style: GoogleFonts.poppins(
+                                    textStyle: const TextStyle(
+                                      color: OpaColors.graytext,
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
                               ),
                               Container(
                                 height: 90,
@@ -133,15 +152,16 @@ class _TablePageState extends State<TablePage> {
                                                 height: 70,
                                                 width: 70,
                                               ),
-                                              Text('${customer.name}',
-                                                  style: GoogleFonts.poppins(
-                                                    textStyle: const TextStyle(
-                                                        color:
-                                                            OpaColors.graytext,
-                                                        fontSize: 12,
-                                                        fontWeight:
-                                                            FontWeight.bold),
-                                                  ))
+                                              Text(
+                                                '${customer.name}',
+                                                style: GoogleFonts.poppins(
+                                                  textStyle: const TextStyle(
+                                                    color: OpaColors.graytext,
+                                                    fontSize: 12,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
+                                              ),
                                             ],
                                           ),
                                         )
@@ -150,7 +170,7 @@ class _TablePageState extends State<TablePage> {
                               ),
                             ],
                           ),
-                        )
+                        ),
                       ],
                     ),
                   ),
@@ -225,9 +245,7 @@ class _TablePageState extends State<TablePage> {
               SizedBox(
                 width: MediaQuery.of(context).size.width,
                 height: 50,
-                child: Container(
-                    // color:Color.fromARGB(255, 43, 26, 25),
-                    ),
+                child: Container(),
               ),
             ],
           ),
