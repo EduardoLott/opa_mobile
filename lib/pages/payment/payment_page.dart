@@ -96,6 +96,7 @@ class _PaymentPageState extends State<PaymentPage> {
                     columns: const [
                       DataColumn(label: Text('Qt.')),
                       DataColumn(label: Text('Item')),
+                      DataColumn(label: Text('Qt. Div.')),
                       DataColumn(
                         label: Text(
                           'Val. Un.',
@@ -110,8 +111,9 @@ class _PaymentPageState extends State<PaymentPage> {
                                   cells: [
                                     DataCell(Text(
                                         '${group.value.length}')), // Qt. total do grupo
-                                    DataCell(
-                                        Text(group.key)), // Nome do produto
+                                    DataCell(Text(group.key)),
+                                    DataCell(Text(
+                                        '${group.value}')), // Nome do produto
                                     DataCell(Text(group.value[0]
                                         .formattedDividedPrice())), // Preço individual
                                     DataCell(Text(

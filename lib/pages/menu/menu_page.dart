@@ -13,7 +13,7 @@ class MenuPage extends StatefulWidget {
 }
 
 class _MenuPageState extends State<MenuPage> {
-  late List<Menu> _menu;
+  late List<Menu> _menu = [];
 
   @override
   void initState() {
