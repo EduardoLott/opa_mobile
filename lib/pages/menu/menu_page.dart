@@ -1,3 +1,5 @@
+import 'dart:html';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:opamobile/pages/menu/menu_interface.dart';
@@ -14,7 +16,7 @@ class MenuPage extends StatefulWidget {
 
 class _MenuPageState extends State<MenuPage>{
   
-  final List<Menu> _menu = [
+  late List<Menu> _menu = [
     Menu(id:1,name:'carlos',price:30.99,description: 'carlosin carlosos carlaosdaoskdo3k3o'),
     Menu(id:1,name:'carlos',price:30.99,description: 'carlosin carlosos carlaosdaoskdo3k3o'),
     Menu(id:1,name:'carlos',price:30,description: 'carlosin carlosos carlaosdaoskdo3k3o'),
@@ -24,8 +26,19 @@ class _MenuPageState extends State<MenuPage>{
   @override
   void initState() {
     // rascunho de requisicao assim que entrar na rota e com o async no nome da funcao 
-    // _menu = await MenuService.getMenu();
+    getMenu();
     super.initState();
+  }
+
+  Future<void> getMenu () async{
+    try {
+      var menuInfoFromService = await MenuService.getMenu();
+      setState(() {
+        _menu = menuInfoFromService as List<Menu>;
+      });
+    } catch (e) {
+      print("Error fetching table info: $e");
+    }
   }
 
   @override

@@ -27,16 +27,13 @@ class OrderService {
 
       final List<dynamic> ordersFromBack = jsonDecode(response.body);
 
-      print("SEXOMILDOBARRAS $ordersFromBack");
 
       if (ordersFromBack == null) {
         return null;
       }
-      print("Aqui");
+      
       List<PaymentOrderDTO> orderList = [];
       ordersFromBack.forEach((e) => orderList.add(PaymentOrderDTO.fromJson(e)));
-      print("SEXOMANEIRO ${ordersFromBack.first}");
-      print(orderList);
 
       return orderList;
     } catch (e) {
