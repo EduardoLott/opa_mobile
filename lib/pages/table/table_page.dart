@@ -209,7 +209,43 @@ class _TablePageState extends State<TablePage> {
                         fixedSize: Size(125, 125),
                         backgroundColor: OpaColors.white,
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: Text(
+                                'OPA!',
+                                style: GoogleFonts.poppins(
+                                  textStyle: const TextStyle(
+                                    color: OpaColors.graytext,
+                                    fontSize: 26,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                              content: Text(
+                                'Estamos chamando um garçom para você!',
+                                style: GoogleFonts.poppins(
+                                  textStyle: const TextStyle(
+                                    color: OpaColors.graytext,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                              actions: <Widget>[
+                                TextButton(
+                                  child: Text('OK'),
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      },
                       child: Image.asset(
                         'assets/Opa_with_fog.png',
                         height: 125,
